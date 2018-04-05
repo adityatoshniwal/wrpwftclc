@@ -1,0 +1,33 @@
+{
+  "name": "learn2",
+  "version": "1.0.0",
+  "description": "learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn run webpack --config webpack.config.js",
+    "wbuild": "yarn run webpack --config webpack.config.js -w"
+  },
+  "author": "Aditya",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "has-ansi": "^3.0.0",
+    "scss-loader": "0.0.1",
+    "webpack": "^3.4.1",
+    "webpack-cli": "^2.0.9"
+  },
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.12.9",
+    "raw-loader": "^0.5.1",
+    "underscore": "^1.8.3",
+    "url-loader": "^0.6.2"
+  }
+}

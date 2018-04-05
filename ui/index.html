@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Warp Weft Calc</title>
+    <link rel="stylesheet" href="./dist/css/app.bundle.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row my-2">
+            <div class="col-9">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text rounded-0 bg-purple">
+                            <i class="la la-search la-lg text-white"></i>
+                        </span> 
+                    </div>
+                    <input type="text" class="form-control  rounded-0" placeholder="Search">
+                </div>
+            </div>
+            <div class="col-3 text-right">
+                <a href="#module/newitem" class="btn btn-sm border-0 rounded-0" id="btnNewItem" data-module="newitem"
+                    >
+                    <i class="la la-edit la-2x text-purple"></i>
+                </a>
+                <a href="#" class="btn btn-sm border-0 rounded-0">
+                    <i class="la la-cog la-2x text-purple"></i>
+                </a>
+                <a href="#" class="btn btn-sm border-0 rounded-0 mr-0">
+                    <i class="la la-power-off la-2x text-purple"></i>
+                </a>
+            </div>
+        </div>
+        <div class="border border-light saved-item-list">
+            <ul id="saved-items">
+
+            </ul>
+        </div>
+    </div>
+      <!-- Modal -->
+      <div class="modal fade" id="pageModal" tabindex="-1" role="dialog" aria-labelledby="pageModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        </div>
+      </div>    
+    <script src="./dist/js/app.bundle.js"></script>
+</body>
+
+</html>

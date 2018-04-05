@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Warp Weft Calculator</title>
+    <link rel="stylesheet" href="./dist/css/app.bundle.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+
+        <div class="navbar-collapse" id="navbarSupportedContent">
+            <div class="dropdown text-white">
+                <a class="btn dropdown-toggle border-0 rounded-0" id="userMenuDropBtn" data-toggle="dropdown">
+                    <i class="la la-user la-lg text-info"></i>
+                    <span id="username">Aditya Toshniwal</span>
+                </a>
+                <div class="dropdown-menu rounded-0" id="user-drop" aria-labelledby="userMenuDropBtn">
+                </div>
+            </div>
+            <ul class="navbar-nav mr-auto" id="main-menu">
+            </ul>
+
+            <div>
+                <button class="btn btn-dark" data-toggle="tooltip" title="Close" disabled>
+                    <i class="la la-close la-lg text-info"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid at-container">
+        <div style="height:7vh"></div>
+        <div id="menu-content-div" class="at-menu-content">
+                <div class="row border-bottom border-dark p-1 my-2">
+                        <div class="col-10" id="section-top-left">
+                            <div class="row">
+                                <div class="col-6 border-right border-dark text-center" id="section-warp">
+                                    <div class="row">
+                                        <div class="col-3"></div>
+                                        <div class="col-6">
+                                            <h5 class="">W A R P</h5>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <button class="btn rounded-0" data-toggle="tooltip" data-placement="bottom" title="Reset">
+                                                <i class="la la-minus-circle la-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="my-2">
+                                        <div id="grid-1" ></div>
+                                        <div class="text-left">
+                                            <a href="#" class="btn btn-sm border-0 rounded-0 btn-light" id="grid-1-add">
+                                                <i class="la la-plus-square la-lg mr-1"></i><span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="grid-2" class="my-2"></div>
+                                </div>
+                                <div class="col-6 border-right border-dark text-center" id="section-weft">
+                                    <div class="row">
+                                        <div class="col-3"></div>
+                                        <div class="col-6">
+                                            <h5 class="">W E F T</h5>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <button class="btn rounded-0" data-toggle="tooltip" data-placement="bottom" title="Reset">
+                                                <i class="la la-minus-circle la-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="grid-1" class="my-2"></div>
+                                    <div id="grid-2" class="my-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2" id="section-top-right">
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Warp Weight</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Weft Wt. with Wastage</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Warp Weight</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Weft Wt. with Wastage</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Total Weight</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Total Wt. with Wastage</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                            <div class="form-group my-1">
+                                <label for="txt1"></label>Total Cost</label>
+                                <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="section-bottom-1" class="border-bottom border-dark p-2 my-2">
+                        <div class="row">
+                            <div class="col-4 row">
+                                <div class="col-2">
+                                    Cramp
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" id="crampTxt" class="form-control form-control-sm rounded-0" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h5>W A R P &nbsp;&nbsp; P A C K I N G</h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button class="btn rounded-0" data-toggle="tooltip" data-placement="bottom" title="Reset">
+                                    <i class="la la-minus-circle la-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="" id="grid"></div>
+                    </div>
+                    
+                    <div id="section-bottom-2" class="border-bottom border-dark p-2 my-2">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Rate Out Per</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Rs.</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Demanded Rate Out</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Percentage %</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0 text-danger" value="0" readonly>
+                                </div>
+                            </div>
+                            <div class="col-1 text-right">
+                                <button class="btn rounded-0" data-toggle="tooltip" data-placement="bottom" title="Reset">
+                                    <i class="la la-minus-circle la-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Rate Out Per</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Rs.</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0" readonly>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Demanded Rate Out</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group my-1">
+                                    <label for="txt1"></label>Percentage %</label>
+                                    <input type="text" id="txt1" class="form-control form-control-sm rounded-0 text-danger" value="0" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="page-buttons" class="my-2 p-2 text-center border-bottom border-dark">
+                        <button class="btn btn-dark rounded-0">
+                            <i class="la la-save la-lg mr-1"></i>Save
+                        </button>
+                        <button class="btn btn-dark rounded-0">
+                            <i class="la la-save la-lg mr-1"></i>Save As Template
+                        </button>
+                        <button class="btn btn-dark rounded-0">
+                            <i class="la la-minus-circle la-lg mr-1"></i>Reset All
+                        </button>
+                    </div>         
+        </div>
+        <script type="text/javascript" src="./dist/js/app.bundle.js"></script>
+        <script>
+        </script>
+</body>
+
+</html>

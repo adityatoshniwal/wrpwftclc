@@ -1,0 +1,36 @@
+<table class="m-auto">
+    <% if(labels) { %>
+        <tr>
+            <% if(has_minus_icon) { %>
+                <td></td>
+            <% } %>
+            <% _(labels).each((label) => {%>
+                <td><%- label %></td>
+            <% }) %>
+        </tr>
+    <% } %>
+    <% if(values) {
+        _(values).each((value) => {
+            %>
+            <tr>
+            <% if(has_minus_icon) { %>
+                <td>
+                    <a href="#" class="btn btn-sm border-0 rounded-0 btn-white">
+                        <i class="la la-minus-square la-lg mr-1 text-danger"></i>
+                    </a>
+                </td>
+            <% } %>
+            <%
+            _(value).each((cell) => {
+                %>
+                <td>
+                    <input class="rounded-0 m-0 form-control form-control-sm" maxlength="10" value="<%-cell%>" <%-is_readonly?'readonly':''%> />
+                </td>
+                <%
+            })
+            %>
+            </tr>
+            <%
+        }) 
+    } %>
+</table>
