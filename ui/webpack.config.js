@@ -18,7 +18,7 @@ var provideLib = new webpack.ProvidePlugin({
 })
 
 module.exports = {
-    entry : ['./common/js/index.js'],
+    entry : ['./index.js'],
     output : {
         path : path.resolve(__dirname,'dist'),
         filename : 'js/app.bundle.js',

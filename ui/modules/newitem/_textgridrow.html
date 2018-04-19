@@ -1,0 +1,16 @@
+<tr class="textgrid-row">
+    <td>
+        <a href="#" class="btn btn-sm border-0 rounded-0 btn-white grid-remove">
+            <i class="la la-minus-square la-lg mr-1 text-danger"></i>
+        </a>
+    </td>
+    <%
+    console.log(row);
+    _(row).each((val, x) => {
+    %>
+    <td class="textgrid-col">
+        <input class="rounded-0 m-0 form-control form-control-sm" maxlength="10" value="<%-val%>" 
+         data-col="<%-x%>" data-colname="<%-cols[x]%>" <%-cols_edit[x]?'readonly':''%> />
+    </td>
+    <% }) %>
+</tr>

@@ -4,54 +4,44 @@
             <div class="text-center bg-info text-white">
                 <h5>W A R P</h5>
             </div>
-            <div class="row">
-                <div class="col-7 text-center" id="grid-1">
-                    <%=warp_grid_1_html%>
-                </div>
-                <div class="col-5 text-center" id="grid-2">
-                    <%=warp_grid_2_html%>
-                </div>
-            </div>
-            <div class="text-left">
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-add">
-                    <i class="la la-plus-square la-lg mr-1 text-success"></i>
-                    <span></span>
-                </a>
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-reset" data-toggle="tooltip" title="Reset Grid">
-                    <i class="la la-retweet la-lg mr-1 text-danger"></i>
-                    <span></span>
-                </a>
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-calc" data-toggle="tooltip" title="Total">
-                    <i class="la la-calculator la-lg mr-1 text-primary"></i>
-                    <span></span>
-                </a>
+            <div class="text-center" id="warp-grid-container">
             </div>
         </div>
         <div id="weft">
             <div class="text-center bg-info text-white">
                 <h5>W E F T</h5>
             </div>
-            <div class="row">
-                <div class="col-7 text-center" id="grid-1">
-                    <%=weft_grid_1_html%>
-                </div>
-                <div class="col-5 text-center" id="grid-2">
-                    <%=weft_grid_2_html%>
-                </div>
-            </div>
-            <div class="text-left">
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-add">
-                    <i class="la la-plus-square la-lg mr-1 text-success"></i>
-                    <span></span>
-                </a>
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-reset" data-toggle="tooltip" title="Reset Grid">
-                    <i class="la la-retweet la-lg mr-1 text-danger"></i>
-                    <span></span>
-                </a>
-                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-calc" data-toggle="tooltip" title="Total">
-                    <i class="la la-calculator la-lg mr-1 text-primary"></i>
-                    <span></span>
-                </a>
+            <div class="text-center">
+                <table class="m-auto" id="weft-grid">
+                    <thead>
+                        <tr>
+                            <td><!--for remove icon--></td>
+                            <% 
+                            _(weft_cols).each((colname) => {%>
+                            <td><%- colname %></td>
+                            <% }) %>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <a href="#" class="btn btn-sm border-0 rounded-0 grid-add" id="">
+                                    <i class="la la-plus-square la-lg mr-1 text-success"></i>
+                                </a>
+                            </td>
+                            <td class="text-left">
+                                <a href="#" class="btn btn-sm border-0 rounded-0 grid-reset" id="" data-toggle="tooltip" title="Reset Grid">
+                                    <i class="la la-retweet la-lg mr-1 text-danger"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm border-0 rounded-0 grid-calc" id="" data-toggle="tooltip" title="Total">
+                                    <i class="la la-calculator la-lg mr-1 text-primary"></i>
+                                </a>                                
+                            </td>
+                        </tr>
+                    </tfoot>                    
+                </table>
             </div>
         </div>
     </div>
@@ -93,13 +83,37 @@
     <div class="text-center bg-info text-white">
         <h5>W A R P &nbsp;&nbsp; P A C K I N G</h5>
     </div>
-    <div class="text-center my-2 row">
-        <div class="col-4" id="grid-1">
-            <table class="m-auto"></table>
-        </div>
-        <div class="col-8" id="grid-2">
-            <table class="m-auto"></table>
-        </div>
+    <div class="text-center">
+        <table class="m-auto" id="weft-pack-grid">
+            <thead>
+                <tr>
+                    <td><!--for remove icon--></td>
+                    <% 
+                    _(weft_cols).each((colname) => {%>
+                    <td><%- colname %></td>
+                    <% }) %>
+                </tr>
+            </thead>
+            <tbody>                    
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-add">
+                            <i class="la la-plus-square la-lg mr-1 text-success"></i>
+                        </a>
+                    </td>
+                    <td class="text-left">
+                        <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-reset" data-toggle="tooltip" title="Reset Grid">
+                            <i class="la la-retweet la-lg mr-1 text-danger"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-calc" data-toggle="tooltip" title="Total">
+                            <i class="la la-calculator la-lg mr-1 text-primary"></i>
+                        </a>                                
+                    </td>
+                </tr>
+            </tfoot>                    
+        </table>
     </div>
     <div class="text-left row">
         <div class="col-4">
@@ -184,4 +198,12 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    <button class="btn btn-dark rounded-0" id="btn-save">
+        <i class="la la-save la-lg mr-1"></i>Save
+    </button>
+    <button class="btn btn-dark rounded-0" id="btn-save-as">
+        <i class="la la-save la-lg mr-1"></i>Save As Template
+    </button>    
 </div>

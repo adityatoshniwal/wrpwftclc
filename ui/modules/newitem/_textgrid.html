@@ -1,36 +1,33 @@
-<table class="m-auto">
-    <% if(labels) { %>
-        <tr>
-            <% if(has_minus_icon) { %>
-                <td></td>
-            <% } %>
-            <% _(labels).each((label) => {%>
-                <td><%- label %></td>
+<table class="m-auto textgrid" id="<%-grid_id%>">
+    <thead>
+        <tr class="border-bottom">
+            <td><!--for remove icon--></td>
+            <% 
+            _(cols).each((colname) => {%>
+            <!-- <td><%- colname %></td> -->
+            <td>
+                <input class="rounded-0 m-0 form-control form-control-sm border border-0 bg-white unselectable" value="<%-colname%>" readonly/>
+            </td>
             <% }) %>
         </tr>
-    <% } %>
-    <% if(values) {
-        _(values).each((value) => {
-            %>
-            <tr>
-            <% if(has_minus_icon) { %>
-                <td>
-                    <a href="#" class="btn btn-sm border-0 rounded-0 btn-white">
-                        <i class="la la-minus-square la-lg mr-1 text-danger"></i>
-                    </a>
-                </td>
-            <% } %>
-            <%
-            _(value).each((cell) => {
-                %>
-                <td>
-                    <input class="rounded-0 m-0 form-control form-control-sm" maxlength="10" value="<%-cell%>" <%-is_readonly?'readonly':''%> />
-                </td>
-                <%
-            })
-            %>
-            </tr>
-            <%
-        }) 
-    } %>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <a href="#" class="btn btn-sm border-0 rounded-0 grid-add" id="">
+                    <i class="la la-plus-square la-lg mr-1 text-success"></i>
+                </a>
+            </td>
+            <td class="text-left">
+                <a href="#" class="btn btn-sm border-0 rounded-0 grid-reset" id="" data-toggle="tooltip" title="Reset Grid">
+                    <i class="la la-retweet la-lg mr-1 text-danger"></i>
+                </a>
+                <a href="#" class="btn btn-sm border-0 rounded-0" id="grid-calc" data-toggle="tooltip" title="Total">
+                    <i class="la la-calculator la-lg mr-1 text-primary"></i>
+                </a>                                
+            </td>
+        </tr>
+    </tfoot>
 </table>
