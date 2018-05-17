@@ -11,7 +11,7 @@ def get_json(**kwargs):
     return json.dumps(kwargs)
 
 
-def form_response(success, message, status, data=""):
+def form_response(status, message, data={}):
     """
     This function is used to form response for a webservice call if only success fail required.
     :param success:
@@ -23,7 +23,7 @@ def form_response(success, message, status, data=""):
     :param data
     :return: JSON String
     """
-    return Response(get_json(success=success, message=message, data=data),status=status)
+    return Response(get_json(message=message, data=data),status=status)
 
 def dict_factory_for_sqlite(cursor, row):
     """

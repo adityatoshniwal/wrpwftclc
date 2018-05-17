@@ -1,0 +1,21 @@
+.app-alert {
+    position: absolute;
+    bottom: 0px;
+    z-index: 2;
+    width: 100%;
+    min-height: 3rem;
+    background: $color-blue;
+    font-size: 1.2rem;
+    padding: 3px 0px 3px 0px;
+    
+    &-body {
+        text-align: center;
+        color: $color-white;
+    }
+    &-close {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+}
+

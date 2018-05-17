@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import cherrypy
 from cherrypy import _cpwsgi_server
 import os
@@ -8,13 +9,17 @@ import appconfig
 import item, user
 
 app = Flask('WarpWeft')
+app.secret_key = 'YouKnowNothing!'
+CORS(app)
 
 app.register_blueprint(item.blueprint,url_prefix="/items")
 app.register_blueprint(user.blueprint,url_prefix="/users")
 
 
 class Root:
-    pass
+    @cherrypy.expose
+    def index(self):
+        raise cherrypy.HTTPRedirect("index.html")
 
 def run_server():
 

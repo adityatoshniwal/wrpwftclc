@@ -1,4 +1,4 @@
-import tp_savedItem from './_saveditem.html';
+import tp_savedItem from './saveditems.html';
 
 
 class SavedItem extends Backbone.Model {

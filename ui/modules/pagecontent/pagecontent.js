@@ -1,4 +1,3 @@
-import tp_page from './_pagecontent.html';
 import tp_pagewrap from './_pagewrap.html';
 import {NewItemView} from '../newitem/newitem';
 import { relative } from 'path';
@@ -25,15 +24,14 @@ class PageManager {
                     +""+currDate.getSeconds()
                     +""+currDate.getMilliseconds()
 
-        var pageHtml = $(this.template({
+        var $pageWrap = $(this.template({
             page_id:id, 
             page_title:page_title
         }))
 
-        pageHtml.find("#page-content").append($page)
+        $pageWrap.find(".page-content").append($page)
 
-        pageHtml.find("#page-close").off('click')
-        pageHtml.find("#page-close").on('click',()=>{
+        $pageWrap.find(".page-close").off('click').on('click',()=>{
             var topid = this.page_stack_arr.pop()
             $("#page-stack #"+topid).remove()
             if(this.page_stack_arr.length == 0) {
@@ -41,7 +39,7 @@ class PageManager {
             }
         })
 
-        this.$page_stack.append(pageHtml);
+        this.$page_stack.append($pageWrap);
 
         $("#page-stack #"+id).removeClass("d-none")
         this.page_stack_arr.push(id);

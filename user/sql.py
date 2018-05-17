@@ -19,7 +19,7 @@ USER_SQL = {
     where username = '{0}'
 """,
 "SELECT_SQL_UNPASS":"""
-    select count(1) from users
+    select id from users
     where username = '{0}' and pass = '{1}'
 """,
 "UPDATE_SQL_DISABLE":"""

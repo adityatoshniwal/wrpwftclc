@@ -1,0 +1,15 @@
+.saveditem-list {
+    min-height: 90vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 0;
+    background: white;
+}
+
+.saveditem-item {
+    &:hover {
+        cursor: pointer;
+        background: #f8f8f8;
+    }
+    border-bottom: 1px solid #dee2e6;
+}

@@ -1,0 +1,127 @@
+@import '~common/css/_colors.scss';
+
+
+body {
+    color: $color-black !important;
+}
+
+.loader {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    &.open {
+        display: block;
+        cursor: wait;
+    }
+    
+    &-background {
+        position: absolute;
+        height: 100%;
+        width: 100%;        
+        background-color:$color-white;
+        opacity: .5;
+    }
+    &-gif {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: url('../img/loader.gif');
+        background-repeat:  no-repeat;
+        background-position: center;
+        background-size: 50px 50px;
+    }
+}
+
+.login-back {
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%23e9eff8' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");    
+}
+
+.card-primary {
+    border: 1px solid $color-blue;
+    //background: $color-blue-light;
+    color: $color-blue;
+    border-radius: 0.25rem !important;
+    padding: 0.25rem;
+}
+
+.bg-primary {
+    background: $color-blue !important;
+
+    &-hover {
+        &:hover {
+            background: $color-blue-dark !important;   
+        }
+    }
+}
+
+.btn-primary {
+    color: $color-white;
+    border:0;
+    background: $color-blue !important;
+    &:hover {
+        background: $color-blue-dark !important;   
+    }
+}
+
+.text-primary {
+    color: $color-blue;
+}
+
+.btn-success {
+    color: $color-white;
+    border:0;
+    background: $color-green !important;
+    &:hover {
+        background: $color-green-dark !important;   
+    }
+}
+
+.btn-danger {
+    color: $color-white;
+    border:0;
+    background: $color-red !important;
+    &:hover {
+        background: $color-red-dark !important;   
+    }
+}
+
+.bg-white {
+    &-hover {
+        &:hover {
+            background: rgb(216, 216, 216) !important;
+        }
+    }
+}
+
+.bg-warning {
+    background: #FCEBBF!important;
+}
+
+.bg-danger {
+    background: #F6C2D8!important;
+}
+
+.form-control {
+    &:focus {
+        box-shadow:none!important;
+    };
+}
+
+.text-20p {
+    font-size: 1.2em;
+}
+.text-40p {
+    font-size: 1.4em;
+}
+.text-60p {
+    font-size: 1.6em;
+}
+.text-80p {
+    font-size: 1.8em;
+}
+.text-2x {
+    font-size: 2em;
+}

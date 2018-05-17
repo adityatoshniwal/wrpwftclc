@@ -1,4 +1,5 @@
 const path = require('path');
+
 const webpack = require('webpack');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -18,10 +19,13 @@ var provideLib = new webpack.ProvidePlugin({
 })
 
 module.exports = {
-    entry : ['./index.js'],
+    entry : {
+        'app.bundle':'common/js/index.js',
+        'app.login':'common/js/login'
+    },
     output : {
         path : path.resolve(__dirname,'dist'),
-        filename : 'js/app.bundle.js',
+        filename : 'js/[name].js',
         publicPath : '../'
     },
     module : {
@@ -40,9 +44,9 @@ module.exports = {
                 exclude : path.resolve(__dirname,'node_modules'),
             },
             {
-                test:/\.css$/,
+                test:/\.(s)*css$/,
                 use : extractPlugin.extract({
-                    use:['css-loader']
+                    use:['css-loader', 'sass-loader']
                 })
             },
             {
@@ -56,18 +60,24 @@ module.exports = {
                         }
                     ]
             },{
-                test:/\.scss$/,
-                use : extractPlugin.extract({
-                    use:['css-loader','scss-loader']
-                })
-            },{
                 test:/\.(html|htm|txt)$/,
                 use :'raw-loader'
+            },{
+                test:/\.(png|gif|jpg)$/,
+                use :'url-loader'
             }
+
         ]
     },
     plugins :[
         extractPlugin,
         provideLib
-    ]
+    ],
+    resolve: {
+        modules:[__dirname, "node_modules"],
+        alias:{
+            'modules':'modules',
+            'common':'common'
+        }
+    }
  }

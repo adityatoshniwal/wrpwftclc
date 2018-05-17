@@ -6,7 +6,7 @@
             _(cols).each((colname) => {%>
             <!-- <td><%- colname %></td> -->
             <td>
-                <input class="rounded-0 mx-1 form-control form-control-sm border border-0 bg-white unselectable" value="<%-colname%>" readonly/>
+                <input class="rounded-0 mx-1 form-control form-control-sm border border-0 bg-white unselectable" value="<%-colname%>" tabindex="-1" readonly/>
             </td>
             <% }) %>
         </tr>

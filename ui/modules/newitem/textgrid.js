@@ -43,6 +43,7 @@ class TextGrid {
             e.preventDefault();
             this.rows.push(new Array(this.cols.length).fill(0));
             this.render()
+            this.$el.find(".textgrid-add").trigger('focus');
         });
 
         this.$el.find(".textgrid-reset").off('click').on('click',(e)=>{
@@ -77,6 +78,7 @@ class TextGrid {
             });
 
             $row.find(".textgrid-col input").on('focusout',(e)=>{
+                e.preventDefault();
                 var rid = e.currentTarget.closest(".textgrid-row").rowIndex-1;                
                 var cid = e.currentTarget.closest(".textgrid-col").cellIndex-1;
                 if(e.currentTarget.value === "") {
@@ -87,6 +89,7 @@ class TextGrid {
             });
 
             $row.find(".textgrid-row-remove").on('click',(e)=>{
+                e.preventDefault();
                 var rid = e.currentTarget.closest(".textgrid-row").rowIndex-1;
                 this.rows.splice(rid,1);
                 this.$el.find("tbody tr:eq("+rid+")").remove();

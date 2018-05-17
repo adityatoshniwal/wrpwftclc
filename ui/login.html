@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Warp Weft Calculator</title>
+    <link rel="stylesheet" href="./dist/css/app.bundle.css">
+</head>
+<body class="login-back">
+    <div class="loader">
+        <div class="loader-background"></div>
+        <div class="loader-gif"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 bg-white" style="height: 100vh;">
+            <div style="height: 20vh;"></div>
+            <div class="">
+                <div class="p-1">
+                    <h4>Login to Warp Weft Calculator</h4>
+                </div>                
+                <div class="form-control-group p-2">
+                    <label for="txtUsername">Username</label>
+                    <input type="text" id="txtUsername" class="form-control">
+                </div>
+                <div class="form-control-group p-2">
+                    <label for="txtPass">Password</label>
+                    <input type="password" id="txtPass" class="form-control">
+                </div>                
+                <div class="row p-2 my-3">
+                    <div class="col-6">
+                        <a href="#" class="text-primary" id="linkForgotPass">Forgot password ?</a>
+                    </div> 
+                    <div class="col-6 text-right">
+                        <button class="btn btn-primary" id="btnLogin">Login</button>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <span class="text-danger" id="errorMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="app-alert">
+        <div class="app-alert-body">Aditya</div>
+        <div class="app-alert-close">
+            <button class="btn btn-primary">
+                <span class="la la-close la-lg"></span>
+            </button>
+        </div>
+    </div>
+    <script src="./dist/js/app.login.js"></script>
+</body>
+</html>
