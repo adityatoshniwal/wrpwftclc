@@ -12,8 +12,8 @@ app = Flask('WarpWeft')
 app.secret_key = 'YouKnowNothing!'
 CORS(app)
 
-app.register_blueprint(item.blueprint,url_prefix="/items")
-app.register_blueprint(user.blueprint,url_prefix="/users")
+app.register_blueprint(item.blueprint, url_prefix="/items")
+app.register_blueprint(user.blueprint, url_prefix="/users")
 
 
 class Root:

@@ -13,7 +13,7 @@ class RESTSession {
     responseFail(jqXHR) {
         //Unauthorised access
         if(jqXHR.status === 401) {
-            window.location.replace("401.html");
+            window.location.replace("login.html");
         }
         else {
             alert('Failed\nStatus : '+jqXHR.status+'-'+jqXHR.statusText
@@ -43,21 +43,21 @@ class RESTSession {
         });
     }
 
-    get(url, successCallback = null, failCallback = null, async=true) {
+    get(url, others) {
         $.ajax(
             BASE_URL + "/" + url, {
             method : "GET",
             dataType : this.dataType,
             contentType : this.contentType,
-            async :async
+            async : typeof others.async === 'undefined' ? true : others.async
         }).done((data, status, jqXHR)=>{
-            if(successCallback != null){
-                successCallback(data);
+            if(others.done != null){
+                others.done(data);
             }
         }).fail((jqXHR, status, errorThrown)=>{
             this.responseFail(jqXHR);
-            if(failCallback != null) {
-                failCallback(data);
+            if(others.fail != null) {
+                others.fail(data);
             }
         }).always((a, status, b)=>{
             //console.log(a);

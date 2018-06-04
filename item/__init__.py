@@ -4,32 +4,54 @@ import json
 from .sql import ITEM_SQL
 from utils import form_response
 
-blueprint = Blueprint('item',__name__,template_folder='templates')
+import json
+
+blueprint = Blueprint('items',__name__,template_folder='templates')
 
 
-@blueprint.route('/', defaults={"id":None}, methods=['GET'])
+
+@blueprint.route('', defaults={"id": None}, methods=['GET'])
 @blueprint.route('/<id>', methods=['GET'])
-
-
-def getitem(conn, id):
+def get_item(id):
     if id is None:
-        itemList = conn.execute_dict(ITEM_SQL["SELECT_SQL_ALL"])
-        return form_response(200,"",itemList)
+        try:
+            with DBConnection() as conn:
+                item_list = conn.execute_dict(ITEM_SQL["SELECT_SQL_ALL"])
+        except Exception as e:
+            return form_response(500, "Some Exception Occurred[{0}]".format(e))
+
+        final_list = []
+        for item in item_list:
+            data_json = json.loads(item['data_json'])
+            final_list.append({
+                "id": item['id'],
+                "data_json": {
+                    "itemName": data_json['itemName'],
+                    "totalWt": data_json['totalWt'],
+                    "totalWtWaste": data_json['totalWtWaste'],
+                    "actualCost": data_json['actualCost']
+                }})
+        return form_response(200,"",item_list)
     else:
-        retVal = conn.execute_single(ITEM_SQL["SELECT_SQL_ID"].format(id))
-        if retVal is None:
+        try:
+            with DBConnection() as conn:
+                ret_val = conn.execute_single(ITEM_SQL["SELECT_SQL_ID"].format(id))
+        except Exception as e:
+            return form_response(500, "Some Exception Occurred[{0}]".format(e))
+
+        if ret_val is None:
             return form_response(404,"Item does not exist")
         else:
-            return form_response(200,"",retVal)
+            return form_response(200,"",ret_val)
+
 
 @blueprint.route('', methods=['POST'])
-
-def additem(conn):
-    data = request.form['data']
+def add_item():
+    data = request.json
 
     try:
-        newId = conn.execute_insert(ITEM_SQL["INSERT_SQL"]
-                          .format(data))
+        with DBConnection() as conn:
+            newId = conn.execute_insert(ITEM_SQL["INSERT_SQL"], (json.dumps(data),))
     except Exception as e:
         return form_response(500, "Some Exception Occurred[{0}]".format(e.message))
 
@@ -37,8 +59,7 @@ def additem(conn):
 
 
 @blueprint.route('/<id>', methods=['DELETE'])
-
-def removeitem(conn,id):
+def remove_item(conn,id):
     try:
         retVal = conn.execute_void(ITEM_SQL["DELETE_SQL"]
                                     .format(id))
@@ -51,8 +72,7 @@ def removeitem(conn,id):
         return form_response(404, "Item Does not exist")
 
 @blueprint.route('/<id>', methods=['PUT'])
-
-def updateitem(conn,id):
+def update_item(conn,id):
     data = request.form['data']
 
     try:

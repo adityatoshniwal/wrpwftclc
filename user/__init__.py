@@ -6,7 +6,7 @@ from utils import form_response
 from functools import wraps
 
 
-blueprint = Blueprint('user',__name__,template_folder='templates')
+blueprint = Blueprint('users',__name__,template_folder='templates')
 
 
 def login_required(func):

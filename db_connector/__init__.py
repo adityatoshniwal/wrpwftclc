@@ -61,14 +61,14 @@ class DBConnection:
         return retVal
 
 
-    def execute_insert(self,sqlString):
+    def execute_insert(self,sqlString, params):
         """
         Execute SQL, returns inserted id
         :param sqlString:
         :return: None
         """
         cursor = self.conn.cursor()
-        cursor.execute(sqlString)
+        cursor.execute(sqlString, params)
         newId = cursor.lastrowid
         self.conn.commit()
         return newId

@@ -1,7 +1,7 @@
 ITEM_SQL = {
 "INSERT_SQL":"""
     insert into items(data_json,del_flag)
-    values ('{0}','N')
+    values (?,'N')
 """,
 "SELECT_SQL_ALL":"""
     select id, data_json from items

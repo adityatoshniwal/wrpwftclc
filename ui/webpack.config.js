@@ -28,6 +28,7 @@ module.exports = {
         filename : 'js/[name].js',
         publicPath : '../'
     },
+    devtool:'inline-source-map',
     module : {
         rules : [
             {
@@ -77,7 +78,8 @@ module.exports = {
         modules:[__dirname, "node_modules"],
         alias:{
             'modules':'modules',
-            'common':'common'
+            'common':'common',
+            'tools':'tools'
         }
     }
  }

@@ -4,7 +4,6 @@
 
 /* Common */
 @import '~common/css/common.scss';
-@import '~common/css/alert.scss';
 
 /* Modules */
 @import '~modules/saveditems/_saveditems.scss';

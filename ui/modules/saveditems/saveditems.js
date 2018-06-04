@@ -1,121 +1,62 @@
 import tp_savedItem from './saveditems.html';
+import { RESTSession } from 'common/js/rest_caller';
 
+let rest = new RESTSession();
 
-class SavedItem extends Backbone.Model {
-    defaults() {
-        return {
-            name:"New Item",
-            totalWt:0,
-            totalWtWaste:0,
-            actualCost:0
-        }
+class SavedItemList {
+    constructor() {
+        this.items = {}
+        _.bindAll(this,'load_items')
+    }
+
+    load_items() {
+        rest.get(
+            'items', {
+                done: (resp) => {
+                    _.each(resp.data, (item) => {
+                        this.items[item.id] = JSON.parse(item.data_json);
+                    })
+                },
+                async:false
+            }
+        );
+    }
+
+    all_items() {
+        return this.items;
+    }
+
+    add_item(item_json) {
+        this.items[item_json.id] = item_json
+    }
+
+    remove_item(item_id) {
+        delete this.items[item_id]
+    }
+
+    refresh_item(item_id) {
+        //call rest api to get data
     }
 }
 
-class SavedItemList extends Backbone.Collection {
-    initialize(){
-        this.model = SavedItem;
-    }
-}
-
-class SavedItemView extends Backbone.View {
-    initialize() {
-        this.template = _.template(tp_savedItem);
-    }
-
-    render() {
-        this.$el = $(this.template(this.model.toJSON()));
-        return this;
-    }
-}
-
-class SavedItemListView extends Backbone.View {
-    initialize(options) {
-        this.el = options.targetEle;
-        this.$el = $(this.el);
-
-        this.ItemView = SavedItemView;
-
-        this.savedItems = new SavedItemList();
-
-        this.fetchItems();
-
+class SavedItemListView {
+    constructor(options) {
+        this.$target = $(options.targetEle);
+        this.itemList = new SavedItemList();
+        this.itemList.load_items();
+        this.itemTemplate = _.template(tp_savedItem)
         this.render();
     }
 
-    fetchItems() {
-        //load this.savedItems
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        })); 
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));
-        this.savedItems.add(new this.savedItems.model({
-            name:"Aditya", total:14
-        }));                                                               
-    }
-
     render() {
-        this.$el.html('');
-        this.savedItems.each((item) => {
-            var v = new this.ItemView({
-                model:item
-            })
+        let $el = $("ul");
+        _.each(this.itemList.all_items() ,(item)=>{
+            var $item_view = $(this.itemTemplate(item))
+            $el.append($item_view)
+        });
 
-            this.$el.append(v.render().$el)
-        })
+        $(this.target).html('');
+        $(this.target).append($el);
     }
 }
 
