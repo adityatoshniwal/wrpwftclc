@@ -1,7 +1,9 @@
-import 'common/css/reset.css';
-import 'common/css/index.css';
+import 'static/css/index.css';
 
-import {SavedItemListView} from 'modules/saveditems/saveditems';
+// import * as alertify from 'alertifyjs';
+import 'static/js/alertify-defaults';
+
+import {SavedItemListView} from 'sources/saveditems/saveditems';
 
 
 
@@ -9,10 +11,10 @@ import {SavedItemListView} from 'modules/saveditems/saveditems';
 // import {MenuListView} from '../../modules/mainmenu/mainmenu'
 // import {PageContentView} from '../../modules/pagecontent/pagecontent'
 
-import {AppRouter} from 'common/js/router'
-import { PageManager } from 'modules/pagecontent/pagecontent';
-import { NewItemView } from 'modules/newitem/newitem';
-import { RESTSession } from 'common/js/rest_caller';
+import {AppRouter} from 'sources/router'
+import { PageManager } from 'sources/pagecontent/pagecontent';
+import { NewItemView } from 'sources/newitem/newitem';
+import { RESTSession } from 'sources/rest_caller';
 import { getCookie, loadUrl } from './utils';
 
 const $preloader = $('.loader');
@@ -29,6 +31,7 @@ $(window).on('load',() => {
     });
 
     var pm = new PageManager();
+    
     window.app_router.addRoutes({
         'module/newitem':(route, params)=>{
             pm.setCurrentPage("New Item",(new NewItemView()).$el)
@@ -49,5 +52,6 @@ $(window).on('load',() => {
             false
         );        
     });
+    
     $preloader.toggleClass('open');
 });

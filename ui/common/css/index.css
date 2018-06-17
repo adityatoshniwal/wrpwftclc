@@ -1,9 +1,0 @@
-/* Externals */
-@import '~node_modules/bootstrap/dist/css/bootstrap.css';
-@import '~common/css/line-awesome.css';
-
-/* Common */
-@import '~common/css/common.scss';
-
-/* Modules */
-@import '~modules/saveditems/_saveditems.scss';

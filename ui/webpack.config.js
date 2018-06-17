@@ -15,13 +15,14 @@ var provideLib = new webpack.ProvidePlugin({
     jQuery:'jquery',
     'window.jQuery':'jquery',
     Backbone:'backbone',
-    _:'underscore'
+    _:'underscore',
+    alertify:'alertifyjs'
 })
 
 module.exports = {
     entry : {
-        'app.bundle':'common/js/index.js',
-        'app.login':'common/js/login'
+        'app.bundle':'static/js/index.js',
+        'app.login':'static/js/login'
     },
     output : {
         path : path.resolve(__dirname,'dist'),
@@ -77,9 +78,11 @@ module.exports = {
     resolve: {
         modules:[__dirname, "node_modules"],
         alias:{
-            'modules':'modules',
+            'static':'static',
+            'sources':'static/js',
             'common':'common',
-            'tools':'tools'
+            'tools':'tools',
+            'rest_caller':'static/js/rest_caller.js'
         }
     }
  }

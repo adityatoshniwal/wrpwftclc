@@ -123,6 +123,7 @@ class NewItemView {
         );
         this.packGrid.render();
     }
+
 }
 
 export {NewItemView};

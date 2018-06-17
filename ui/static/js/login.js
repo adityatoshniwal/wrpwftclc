@@ -1,4 +1,4 @@
-import {RESTSession} from 'common/js/rest_caller';
+import {RESTSession} from 'rest_caller';
 import { loadUrl } from './utils';
 
 
