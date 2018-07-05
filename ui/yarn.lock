@@ -2186,6 +2186,12 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
+formulize@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/formulize/-/formulize-0.0.13.tgz#eb8eeb2f8e16f8e74e29d7284abe090f22997f50"
+  dependencies:
+    metric-parser "0.0.12"
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -2986,6 +2992,10 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+jquery-ui@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+
 jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
@@ -3359,6 +3369,10 @@ meow@^3.7.0:
     read-pkg-up "^1.0.1"
     redent "^1.0.0"
     trim-newlines "^1.0.0"
+
+metric-parser@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/metric-parser/-/metric-parser-0.0.12.tgz#ea62647673e14fa173ac4fc6e447f66c6d656962"
 
 micromatch@^2.3.7:
   version "2.3.11"

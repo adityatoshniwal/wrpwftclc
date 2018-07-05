@@ -49,6 +49,23 @@ class SavedItemListView {
         let $ul = this.$target.find('ul');
         _.each(this.itemList.all_items() ,(item)=>{
             var $item_view = $(this.itemTemplate(item))
+            $item_view.find('.saveditem-item-remove').on('click', (e)=> {
+                e.stopPropagation();
+                alertify.confirm()
+                    .setting({
+                        'title':'Delete',
+                        'message':'Are you sure you want to delete ?',
+                        'closable':false,
+                        'transition':'flipx',
+                        'onok':function() {
+                            $item_view.slideUp(250, ()=> {
+                                $item_view.remove();
+                                alertify.success('Item '+item.itemName+' removed');
+                            })
+                        },
+                    })
+                    .show();
+            })
             $ul.append($item_view)
         });
     }

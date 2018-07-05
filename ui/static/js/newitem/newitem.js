@@ -1,6 +1,66 @@
 import tp_newitem from './_newitem.html';
 import { TextGrid } from './textgrid';
+import {UI} from 'formulize';
 
+alertify.dialog('formulaDialog', function() {
+    var $dialogContent;
+    return {
+        main: function(params) {
+        },
+        setup: function() {
+            return {
+                options: {
+                    resizable: false,
+                    maximizable: false,
+                    padding: false,
+                },
+                buttons: [
+                    {text:'OK', className: alertify.defaults.theme.ok,},
+                    {text:'Cancel', key:27, className: alertify.defaults.theme.cancel,}
+                ],
+            };
+        },
+        build: function() {
+            $dialogContent = $(this.elements.content);
+            $dialogContent.append('<div class="formula-div"></div>');
+            $dialogContent.append(`<div class="formula-tags">
+            </div>`);
+        },
+        settings: {
+            dialogFormula: '',
+        },
+        // listen and respond to changes in dialog settings.
+        settingUpdated: function(key, oldValue, newValue) {
+            switch(key) {
+                case 'dialogFormula':
+                    $dialogContent.find('.formula-div').formulize({
+                        text: {
+                            pass: 'Valid',
+                            error: 'Not Valid'
+                        }
+                    })
+    
+                    var formulize = $dialogContent.find('.formula-div').data('$formulize');
+                    formulize.setData({
+                        operator: '*',
+                        operand1: { value: { type: 'unit', unit: 1 } },
+                        operand2: { value: { type: 'unit', unit: 2 } }
+                    });
+
+                    $('<a href="#" data-value="3.14">PI</a>')
+                    .appendTo($dialogContent.find('.formula-tags'))
+                    .on('click', function(e){
+                        formulize.insert({'data-value':1});
+                    })
+                break;
+            }
+        },
+        // listen to internal dialog events.
+        hooks: {
+
+        },
+    };
+});
 
 class NewItemModel {
     constructor(id=0) {
@@ -12,14 +72,25 @@ class NewItemModel {
             //load from service
             this.data = {
                 warp_grid: [
-                    [1,2,3,0,0,0,0,0]
+                    [2,0,0,0,0,0,0,0],
+                    [1,0,0,0,0,0,0,0],
+                    [3,0,0,0,0,0,0,0]
                 ],
                 weft_grid: [
-                    [0,0,0,4,5,6]
+                    [0,0,0,0,0,0]
                 ],
                 warp_pack_grid : [
                     [0,0,0,0,0,0,0,0,3,0,1]
-                ]
+                ],            
+                other:{
+                    warp_wt:0,
+                    warp_wt_wstg:0,
+                    weft_wt:0,
+                    weft_wt_wstg:0,
+                    total_wt:0,
+                    total_wstg:0,
+                    total_cost:0
+                }
             };
         }
         _.bindAll(this,'defaults','get','set','save')
@@ -27,28 +98,16 @@ class NewItemModel {
     }
 
     defaults() {
-        return {
+        return {    
             warp_grid: [
-                [2,0,0,0,0,0,0,0],
-                [1,0,0,0,0,0,0,0],
-                [3,0,0,0,0,0,0,0]
+                [0,0,0,0,0]
             ],
             weft_grid: [
-                [0,0,0,0,0,0]
+                [0,0,0]
             ],
             warp_pack_grid : [
-                [0,0,0,0,0,0,0,0,3,0,1]
-            ],            
-            other:{
-                warp_wt:0,
-                warp_wt_wstg:0,
-                weft_wt:0,
-                weft_wt_wstg:0,
-                total_wt:0,
-                total_wstg:0,
-                total_cost:0
-            }
-        
+                [0,0,0,0]
+            ]
         }
     }
 
@@ -122,6 +181,8 @@ class NewItemView {
             this.$el.find("#warppack-grid-container")
         );
         this.packGrid.render();
+
+        alertify.formulaDialog().setting({title:'Warp Wt.',dialogFormula:'Some more'}).show();
     }
 
 }

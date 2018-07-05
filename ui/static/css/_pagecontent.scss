@@ -1,0 +1,14 @@
+.page-header {
+    // position: fixed;
+    // z-index: 1;
+    // width: 100%;
+    // margin: 5px;
+}
+
+.page-content {
+    min-height: 90vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 0;
+    background: white;
+}

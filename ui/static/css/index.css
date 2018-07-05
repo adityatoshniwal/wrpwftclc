@@ -3,13 +3,15 @@
 
 @import '~node_modules/alertifyjs/build/css/alertify.min.css';
 @import '~node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
-/* @import '~static/css/alertify-override.scss'; */
+@import '~static/css/alertify-override.scss';
 @import '~node_modules/bootstrap/dist/css/bootstrap.css';
+@import '~node_modules/formulize/dist/formulize.css';
 
 @import '~static/css/line-awesome.css';
 
 /* Common */
-@import '~static/css/common.scss';
+@import '~static/css/_common.scss';
 
 /* Modules */
 @import '~static/css/_saveditems.scss';
+@import '~static/css/_pagecontent.scss';

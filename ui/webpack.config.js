@@ -16,7 +16,7 @@ var provideLib = new webpack.ProvidePlugin({
     'window.jQuery':'jquery',
     Backbone:'backbone',
     _:'underscore',
-    alertify:'alertifyjs'
+    alertify:'alertifyjs',
 })
 
 module.exports = {
@@ -82,7 +82,7 @@ module.exports = {
             'sources':'static/js',
             'common':'common',
             'tools':'tools',
-            'rest_caller':'static/js/rest_caller.js'
+            'rest_caller':'static/js/rest_caller.js',
         }
     }
  }
