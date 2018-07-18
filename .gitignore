@@ -1,0 +1,8 @@
+py35/
+__pycache__
+dist
+node_modules
+dist
+.vscode
+.idea
+*/__pycache__/*.pyc

@@ -14,10 +14,39 @@
         <div class="loader-background"></div>
         <div class="loader-gif"></div>
     </div>    
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                    Home <button class="nav-close la la-close la-1x btn-plain-noborder"></button>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Some item name may come here</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+            </li>
+
+            <li><a href="#profile"><button class="close closeTab" type="button" >×</button>Sent</a>
+
+            </li>
+        </ul>
         
-    <div class="container-fluid">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">...a</div>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">...b</div>
+        <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">.c..</div>
+        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">..r.</div>
+    </div>
+
+    <!-- <div class="container-fluid">
         <div id="home" class="">
-            <div class="row py-2 bg-primary">
+            <div class="row py-2 page-header">
                 <div class="col-9">
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -29,14 +58,14 @@
                     </div>
                 </div>
                 <div class="col-3 text-right">
-                    <a href="#module/newitem" data-route="module/newitem" class="btn btn-sm btn-primary" id="btnNewItem">
-                        <i class="la la-edit la-2x text-white"></i>
+                    <a href="#module/newitem" data-route="module/newitem" class="btn btn-sm btn-plain" id="btnNewItem">
+                        <i class="la la-edit la-2x"></i>
                     </a>
-                    <a href="#" class="btn btn-sm btn-primary">
-                        <i class="la la-cog la-2x text-white"></i>
+                    <a href="#" class="btn btn-sm btn-plain">
+                        <i class="la la-cog la-2x"></i>
                     </a>
-                    <a href="#" class="btn btn-sm btn-primary" id="btnLogout">
-                        <i class="la la-power-off la-2x"></i>
+                    <a href="#" class="btn btn-sm btn-plain" id="btnLogout">
+                        <i class="la la-power-off la-2x text-danger"></i>
                     </a>
                 </div>
             </div>
@@ -45,7 +74,7 @@
         </div>
         <div id="page-stack">
         </div>
-    </div>
+    </div> -->
     <script src="./dist/js/app.bundle.js"></script>
 </body>
 

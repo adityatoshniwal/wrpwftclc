@@ -3,7 +3,7 @@ ROOT = os.getcwd()
 DB_FILE_NAME = 'app.db'
 DB_FILE_PATH = os.path.join(ROOT,DB_FILE_NAME)
 HOST_ADDR = '127.0.0.1'
-PORT = 5050
+PORT = 5051
 UI_PATH='ui'
 LOG_PATH = ROOT
 

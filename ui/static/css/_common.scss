@@ -1,7 +1,7 @@
 @import '~static/css/_colors.scss';
 
 body {
-    color: $color-black !important;
+    color: $color-black-0 !important;
 }
 
 .loader {
@@ -38,12 +38,38 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%23e9eff8' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");    
 }
 
-.card-primary {
-    border: 1px solid $color-blue;
-    //background: $color-blue-light;
+
+.page-header {
+    background: $color-white;
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: $color-black-3;
+}
+
+.ribbon-primary {
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: $color-blue;
+    background: none;
     color: $color-blue;
-    border-radius: 0.25rem !important;
     padding: 0.25rem;
+}
+
+.btn-plain {
+    background: $color-white;
+    color: $color-black-2;
+    &:hover {
+        background: $color-black-4;
+        color: $color-black-0;
+    }
+}
+
+.btn-plain-noborder {
+    color: $color-black-2;
+    border:0px;
+    &:hover {
+        color: $color-black-0;
+    }
 }
 
 .bg-primary {
@@ -64,6 +90,17 @@ body {
         background: $color-blue-dark !important;   
     }
 }
+
+.btn-secondary {
+    color: $color-blue;
+    border: 1px solid $color-blue;
+    background: $color-white !important;
+    &:hover {
+        background: $color-black-3 !important;   
+        color: $color-blue;
+    }
+}
+
 
 .text-primary {
     color: $color-blue;
@@ -95,6 +132,10 @@ body {
     }
 }
 
+.bg-dark {
+    background: $color-black-1;
+}
+
 .bg-warning {
     background: #FCEBBF!important;
 }
@@ -123,4 +164,43 @@ body {
 }
 .text-2x {
     font-size: 2em;
+}
+
+.text-danger {
+    color: $color-red;
+}
+
+button {
+    border-radius: 1.1rem !important;
+}
+
+.nav-tabs { 
+    & .nav-item {
+        background: $color-black-4;
+        & .nav-link{
+            color: $color-black-2;
+            
+            &.active {
+                color: $color-black-0;
+
+                & .nav-close {
+                    color: $color-black-0;
+                }
+            }
+        }
+
+        & .nav-close {
+            background: $color-black-4;
+        }
+
+        & .active {
+            background: $color-white;
+
+            & .nav-close {
+                background: $color-white;
+            }
+    
+        }
+    }
+    border-bottom: 1px;
 }

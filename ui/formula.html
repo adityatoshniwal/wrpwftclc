@@ -9,13 +9,33 @@
     <style>
         .formula-container {
             border: 1px #555 solid;
+            height: 100px;
+        }
+
+        .variable-chip {
+            float: left;
+            border: 1px solid black;
+            padding: 3px;
+            margin: 2px;
         }
     </style>
 </head>
 <body>
-    <div class="formula-container">
+    <div class="formula-container" contenteditable="true">
         Adtiya
     </div>
-    <script src="./dist/js/app.bundle.js"></script>    
+    <div>
+        <div class="variable-chip" contenteditable="false">Warp</div>   
+        <div class="variable-chip" contenteditable="false">Weft</div>
+        <div class="variable-chip" contenteditable="false">Percentg</div>
+    </div>
+    <script src="./dist/js/app.bundle.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script>
+        
+    </script>
 </body>
 </html>

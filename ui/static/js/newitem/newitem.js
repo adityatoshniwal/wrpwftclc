@@ -1,6 +1,8 @@
 import tp_newitem from './_newitem.html';
-import { TextGrid } from './textgrid';
+// import { TextGrid } from './textgrid';
 import {UI} from 'formulize';
+import { FormulaGrid } from './formulagrid';
+
 
 alertify.dialog('formulaDialog', function() {
     var $dialogContent;
@@ -100,13 +102,13 @@ class NewItemModel {
     defaults() {
         return {    
             warp_grid: [
-                [0,0,0,0,0]
+                [0,0,0,0,0,0,0,0]
             ],
             weft_grid: [
-                [0,0,0]
+                [0,0,0,0,0,0]
             ],
             warp_pack_grid : [
-                [0,0,0,0]
+                [0,0,0,0,0,0,0,0,0,0,0]
             ]
         }
     }
@@ -130,12 +132,6 @@ class NewItemView {
 
         _.bindAll(this,'render')
 
-        this.warp_cols = ["Count", "Perctg.", "Wastage", "Rate", "Sizing Rate", 
-                        "Weight", "Warp Cost", "Warp Sizing Cost"];
-        this.warp_edit = [false, false, false, false, false, true, true, true];
-        this.weft_cols = ["Count", "Perctg.", "Wastage", "Rate", "Weight", "Weft Cost"];
-        this.weft_edit = [false, false, false, true, true, true];
-
         this.warp_pack_cols = ["Kg/Bag", "No. of cone/bag", "Part", "No Of Beam", 
                                 "Kg/Cone", "Total Meger", "Sizing Meger", "Tara",
                                 "No Of Bags", "Total Cut", "Cut On Beam"];
@@ -151,38 +147,70 @@ class NewItemView {
 
     render() {
         this.$el = $(this.pageTemplate(this.uiData))
-        this.warpGrid = new TextGrid(
-                                "F",
-                                this.warp_cols, 
-                                this.warp_edit,
-                                this.itemData.warp_grid,
-                                this.$el.find("#warp-grid-container")
-                            );
-        this.warpGrid.setFormula(6,[0,1],(cols) =>{
-            return cols[0]+cols[1];
+
+        this.warpGrid = new FormulaGrid({
+            gridId : 'warp-grid',
+            target: this.$el.find("#warp-grid-container"),
+            columns :[
+                FormulaGrid.defineColumn({title : 'Count'}),
+                FormulaGrid.defineColumn({title : 'Perct.'}),
+                FormulaGrid.defineColumn({title : 'Wastage'}),
+                FormulaGrid.defineColumn({title : 'Rate'}),
+                FormulaGrid.defineColumn({title : 'Sizing Rate'}),
+                FormulaGrid.defineColumn({title : 'Weight', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Warp Cost', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Warp Sizing Cost', readonly :true}),
+            ]
         });
-        this.warpGrid.render();
+
+        this.warpGrid.addRows([
+            [0],
+        ]);
+
+        this.weftGrid = new FormulaGrid({
+            gridId : 'weft-grid',
+            target: this.$el.find("#weft-grid-container"),
+            columns :[
+                FormulaGrid.defineColumn({title : 'Count'}),
+                FormulaGrid.defineColumn({title : 'Perct.'}),
+                FormulaGrid.defineColumn({title : 'Wastage'}),
+                FormulaGrid.defineColumn({title : 'Rate'}),
+                FormulaGrid.defineColumn({title : 'Weight', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Weft Cost', readonly :true}),
+            ]
+        });
+
+        this.weftGrid.addRows([
+            [0],
+        ]);
+
+        this.warp_pack_cols = ["", "", "", "", 
+        "Kg/Cone", "Total Meger", "Sizing Meger", "Tara",
+        "No Of Bags", "Total Cut", "Cut On Beam"];
 
 
-        this.weftGrid = new TextGrid(
-                                "F",
-                                this.weft_cols, 
-                                this.weft_edit,
-                                this.itemData.weft_grid,
-                                this.$el.find("#weft-grid-container")
-                            );
-        this.weftGrid.render();
+        this.packGrid = new FormulaGrid({
+            gridId : 'weft-grid',
+            target: this.$el.find("#warppack-grid-container"),
+            columns :[
+                FormulaGrid.defineColumn({title : 'Kg/Bag'}),
+                FormulaGrid.defineColumn({title : 'No. of cone/bag'}),
+                FormulaGrid.defineColumn({title : 'Part'}),
+                FormulaGrid.defineColumn({title : 'No Of Beam'}),
+                FormulaGrid.defineColumn({title : 'Kg/Cone', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Total Meger', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Sizing Meger', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Tara', readonly :true}),
+                FormulaGrid.defineColumn({title : 'No Of Bags', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Total Cut', readonly :true}),
+                FormulaGrid.defineColumn({title : 'Cut On Beam', readonly :true}),
+            ]
+        });
 
-        this.packGrid = new TextGrid(
-            "F",
-            this.warp_pack_cols, 
-            this.warp_pack_edit,
-            this.itemData.warp_pack_grid,
-            this.$el.find("#warppack-grid-container")
-        );
-        this.packGrid.render();
+        this.packGrid.addRows([
+            [0],
+        ]);
 
-        alertify.formulaDialog().setting({title:'Warp Wt.',dialogFormula:'Some more'}).show();
     }
 
 }

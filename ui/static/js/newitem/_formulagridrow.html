@@ -1,15 +1,15 @@
-<tr class="textgrid-row">
+<tr class="formulagrid-row">
     <td>
-        <a href="#" class="btn btn-sm border-0 rounded-0 btn-white textgrid-row-remove">
+        <a href="#" class="btn btn-sm border-0 rounded-0 btn-white formulagrid-row-remove">
             <i class="la la-minus-square la-lg mr-1 text-danger"></i>
         </a>
     </td>
     <%
     _(row).each((val, x) => {
     %>
-    <td class="textgrid-col">
+    <td class="formulagrid-col">
         <input class="rounded-0 m-0 form-control form-control-sm" maxlength="10" value="<%-val%>" 
-         data-col="<%-x%>" data-colname="<%-cols[x]%>" <%-cols_edit[x]?'readonly':''%> />
+         data-col="<%-x%>" data-colname="<%-columns[x].title%>" <%-columns[x].readonly?'readonly':''%> />
     </td>
     <% }) %>
 </tr>

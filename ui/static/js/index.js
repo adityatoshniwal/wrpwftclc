@@ -1,3 +1,4 @@
+import 'bootstrap';
 import 'static/css/index.css';
 
 // import * as alertify from 'alertifyjs';
