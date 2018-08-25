@@ -148,6 +148,8 @@ class NewItemView {
     render() {
         this.$el = $(this.pageTemplate(this.uiData))
 
+        window.tab_manager.tabTitleBind(this.$el.find('#item-title'));
+
         this.warpGrid = new FormulaGrid({
             gridId : 'warp-grid',
             target: this.$el.find("#warp-grid-container"),
@@ -210,7 +212,6 @@ class NewItemView {
         this.packGrid.addRows([
             [0],
         ]);
-
     }
 
 }

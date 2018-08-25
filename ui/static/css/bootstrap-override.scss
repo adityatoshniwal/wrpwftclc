@@ -1,0 +1,72 @@
+@import '~static/css/_colors.scss';
+
+.btn-primary {
+  color: $color-white;
+  border:0;
+  background: $color-blue !important;
+  &:hover {
+      background: $color-blue-dark !important;   
+  }
+}
+
+.btn-success {
+  color: $color-white;
+  border:0;
+  background: $color-green !important;
+  &:hover {
+      background: $color-green-dark !important;   
+  }
+}
+
+.btn-danger {
+  color: $color-white;
+  border:0;
+  background: $color-red !important;
+  &:hover {
+      background: $color-red-dark !important;   
+  }
+}
+
+.form-control {
+  &:focus {
+      box-shadow:none!important;
+  };
+}
+
+.text-danger {
+  color: $color-red;
+}
+
+.nav-tabs { 
+  & .nav-item {
+      background: $color-white;
+      & .nav-link{
+          color: $color-black-2;
+          border: 0px;
+          border-radius: 0px;
+          &.active {
+              color: $color-black-0;
+              border-bottom: 3px;
+              border-bottom-style: solid;
+              border-bottom-color: $color-blue;
+  
+              & .nav-close {
+                  color: $color-black-0;
+              }
+          }
+      }
+
+      & .nav-close {
+          background: $color-white;
+      }
+
+      & .active {
+          background: $color-white;
+
+          & .nav-close {
+              background: $color-white;
+          }
+  
+      }
+  }
+}

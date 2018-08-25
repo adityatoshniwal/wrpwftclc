@@ -1,22 +1,23 @@
 @import '~static/css/_colors.scss';
 
-.saveditem-list {
-    min-height: 90vh;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 0;
-    background: white;
-}
-
 .saveditem-item {
     &:hover {
         cursor: pointer;
         border-color: $color-black-3;
-        box-shadow: 5px 0px 5px $color-black-3;
+        box-shadow: 5px 0px 5px$color-black-3;
     }
     border-top: 1px;
     border-bottom: 1px;
-    border-style: solid;
-    border-color: $color-black-4;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-top-color: $color-black-4;
+    border-bottom-color: $color-black-4;
     margin: -1px 0px;
+}
+
+
+.search-bar {
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: $color-black-4;
 }

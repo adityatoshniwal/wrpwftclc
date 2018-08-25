@@ -6,10 +6,11 @@
 @import '~static/css/alertify-override.scss';
 @import '~node_modules/bootstrap/dist/css/bootstrap.css';
 @import '~node_modules/formulize/dist/formulize.css';
-
 @import '~static/css/line-awesome.css';
 
-/* Common */
+/* App */
+@import '~static/css/bootstrap-override.scss';
+@import "~static/css/react-table.scss";
 @import '~static/css/_common.scss';
 
 /* Modules */

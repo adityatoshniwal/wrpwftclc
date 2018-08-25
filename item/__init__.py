@@ -25,13 +25,12 @@ def get_item(id):
             data_json = json.loads(item['data_json'])
             final_list.append({
                 "id": item['id'],
-                "data_json": {
-                    "itemName": data_json['itemName'],
-                    "totalWt": data_json['totalWt'],
-                    "totalWtWaste": data_json['totalWtWaste'],
-                    "actualCost": data_json['actualCost']
-                }})
-        return form_response(200,"",item_list)
+                "itemName": data_json['itemName'],
+                "totalWt": data_json['totalWt'],
+                "totalWtWaste": data_json['totalWtWaste'],
+                "actualCost": data_json['actualCost']
+            })
+        return form_response(200,"",final_list)
     else:
         try:
             with DBConnection() as conn:

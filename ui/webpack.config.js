@@ -2,13 +2,13 @@ const path = require('path');
 
 const webpack = require('webpack');
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-var extractPlugin = new ExtractTextPlugin(
+var miniCssExtractPlugin = new MiniCssExtractPlugin(
     {
         filename:'css/app.bundle.css'
     }
-)
+);
 
 var provideLib = new webpack.ProvidePlugin({
     $:'jquery',
@@ -33,13 +33,14 @@ module.exports = {
     module : {
         rules : [
             {
-                test : /\.js$/,
+                test : /\.jsx?$/,
                 exclude:/node_modules/,
                 use : [
                     {
                         loader:'babel-loader',
                         options:{
-                            presets : ['babel-preset-env']
+                            presets : ['env', 'react'],
+                            plugins: ['transform-object-rest-spread']
                         }
                     }
                 ],
@@ -47,9 +48,13 @@ module.exports = {
             },
             {
                 test:/\.(s)*css$/,
-                use : extractPlugin.extract({
-                    use:['css-loader', 'sass-loader']
-                })
+                use : [
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test:/\.(woff|ttf|svg|otf|eot|woff2)(\?\S*)?$/,
@@ -72,17 +77,18 @@ module.exports = {
         ]
     },
     plugins :[
-        extractPlugin,
+        miniCssExtractPlugin,
         provideLib
     ],
     resolve: {
         modules:[__dirname, "node_modules"],
+        extensions: ['.js', '.jsx'],
         alias:{
-            'static':'static',
-            'sources':'static/js',
-            'common':'common',
-            'tools':'tools',
-            'rest_caller':'static/js/rest_caller.js',
+            'static': path.resolve(__dirname,'./static/'),
+            'sources':path.resolve(__dirname,'./static/js/'),
+            'common':path.resolve(__dirname,'common/'),
+            'tools': path.resolve(__dirname,'tools/'),
+            'rest_caller': path.resolve(__dirname,'static/js/rest_caller.js'),
         }
     }
  }
