@@ -21,8 +21,8 @@ var provideLib = new webpack.ProvidePlugin({
 
 module.exports = {
     entry : {
-        'app.bundle':'static/js/index.js',
-        'app.login':'static/js/login'
+        'app.bundle':'index.js',
+        // 'app.login':'login/login'
     },
     output : {
         path : path.resolve(__dirname,'dist'),
@@ -85,7 +85,7 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias:{
             'static': path.resolve(__dirname,'./static/'),
-            'sources':path.resolve(__dirname,'./static/js/'),
+            'sources':path.resolve(__dirname,'./'),
             'common':path.resolve(__dirname,'common/'),
             'tools': path.resolve(__dirname,'tools/'),
             'rest_caller': path.resolve(__dirname,'static/js/rest_caller.js'),

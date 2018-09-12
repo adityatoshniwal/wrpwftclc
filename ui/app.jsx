@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabContent, TabLinks } from './tabmanager/tabmanager';
+import { TabContent, TabLinks } from 'sources/tabmanager/TabLinks';
 
 class App extends React.Component {
     constructor() {
@@ -30,9 +30,17 @@ class App extends React.Component {
         this.setState({active_id:activeId});
     }
 
-    changeTabTitle(title) {
+    changeActiveTabTitle(title) {
         if(title !== ''){
-            
+            this.setState(prevState=>{
+                let tabs = prevState.tabs;
+                tabs.forEach((tab)=> {
+                    if(tab.id === prevState.active_id){
+                        
+                    }
+                })
+                
+            })
         }
     }
 

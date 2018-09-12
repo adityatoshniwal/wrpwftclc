@@ -1,6 +1,6 @@
 import React from 'react';
 import SavedItemList from './saveditemlist';
-import { url_for } from 'sources/url_for';
+import { url_for } from 'sources/utils/url_for';
 
 class Search extends React.Component {
     constructor() {

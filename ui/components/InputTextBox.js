@@ -15,7 +15,7 @@ function InputTextBox(props){
             <div className="form-group">
                 <input className="form-control form-control-sm " type="text" 
                     id={props.id} name={props.name} value={props.value} onChange={props.handleTextChange} 
-                    maxLength={props.maxlength}/>
+                    maxLength={props.maxlength} readOnly={props.readonly}/>
             </div>
         );        
     }

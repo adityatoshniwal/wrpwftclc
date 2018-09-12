@@ -1,16 +1,16 @@
 import 'bootstrap'
-import 'static/css/index.css';
+import 'sources/styles/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 // import * as alertify from 'alertifyjs';
-import 'static/js/alertify-defaults';
+import 'sources/tools/alertify-defaults';
 
 // import {SavedItemListView} from 'sources/saveditems/saveditems';
 
-import {AppRouter} from 'sources/router'
-import { RESTSession } from 'sources/rest_caller';
-import { getCookie, loadUrl } from './utils';
+import {AppRouter} from 'sources/utils/router'
+import { RESTSession } from 'sources/utils/rest_caller';
+import { getCookie, loadUrl } from 'sources/utils/utils';
 import App from './app';
 
 const $preloader = $('.loader');
