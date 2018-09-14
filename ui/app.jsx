@@ -1,5 +1,6 @@
 import React from 'react';
-import { TabContent, TabLinks } from 'sources/tabmanager/TabLinks';
+import TabContent from 'sources/tabmanager/TabContent';
+import TabLinks from 'sources/tabmanager/TabLinks';
 
 class App extends React.Component {
     constructor() {

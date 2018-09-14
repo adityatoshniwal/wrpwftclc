@@ -1,6 +1,10 @@
 import React from 'react';
 
 function InputTextBox(props){
+    let returnLabel = function() {
+        
+    }
+
     if(props.label) {
         return(
             <div className="form-group">

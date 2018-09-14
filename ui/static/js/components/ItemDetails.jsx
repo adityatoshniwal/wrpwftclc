@@ -1,7 +1,8 @@
 import React from 'react';
-import {InputTextBox, InputGrid} from 'sources/components';
+import InputTextBox from '../components/inputtextbox';
+import InputGrid from '../components/inputgrid';
 
-export default class ItemDetails extends React.Component {
+class ItemDetails extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -284,3 +285,5 @@ export default class ItemDetails extends React.Component {
         )
     }
 }
+
+export default ItemDetails;

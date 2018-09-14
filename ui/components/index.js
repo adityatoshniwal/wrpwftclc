@@ -1,2 +1,3 @@
-export {default as InputGrid} from './InputGrid';
-export {default as InputTextBox} from './InputTextBox';
+import  InputGrid from './InputGrid';
+import  InputTextBox from './InputTextBox';
+export {InputGrid, InputTextBox};

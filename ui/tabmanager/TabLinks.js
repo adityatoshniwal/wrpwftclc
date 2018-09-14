@@ -3,7 +3,7 @@ import Settings from 'sources/settings/Settings';
 import Search from 'sources/search/Search';
 import ItemDetails from 'sources/itemdetails/ItemDetails';
 
-class TabLinks extends React.Component {
+export default class TabLinks extends React.Component {
     constructor(){
         super()
         this.handleTabClick = this.handleTabClick.bind(this);
@@ -45,5 +45,3 @@ class TabLinks extends React.Component {
         );
     }
 }
-
-export {TabContent, TabLinks};
