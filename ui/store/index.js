@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import itemDetailsReducer from 'sources/itemdetails/itemReducer';
-import tabReducer from 'sources/tabmanager/tabReducer';
-import {searchReducer} from 'sources/search/searchReducer';
+import itemDetailsReducer from 'sources/itemdetails/itemActionReducer';
+import tabReducer from 'sources/tabmanager/tabActionReducer';
+import {searchReducer} from 'sources/search/searchActionReducer';
 
 import thunk from 'redux-thunk';
 

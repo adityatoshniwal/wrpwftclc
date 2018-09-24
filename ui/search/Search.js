@@ -3,7 +3,7 @@ import SavedItemList from './saveditemlist';
 import {AlertDiv} from 'sources/components';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addItem, fetchItems} from './searchReducer';
+import {addItem, fetchItems} from './searchActionReducer';
 
 class Search extends React.Component {
     constructor() {
@@ -61,9 +61,13 @@ function mapStateToProps(state) {
     }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-        addItem,
-        fetchItems,
-    }, dispatch);
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators({
+            addItem,
+            fetchItems,
+        }, dispatch)
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
