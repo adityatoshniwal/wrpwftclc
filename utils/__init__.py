@@ -23,7 +23,7 @@ def form_response(status, message, data={}):
     :param data
     :return: JSON String
     """
-    return Response(get_json(message=message, data=data),status=status)
+    return Response(get_json(message=message, data=data), status=status)
 
 def dict_factory_for_sqlite(cursor, row):
     """

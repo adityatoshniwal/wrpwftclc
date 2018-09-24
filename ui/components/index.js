@@ -1,3 +1,5 @@
 import  InputGrid from './InputGrid';
 import  InputTextBox from './InputTextBox';
-export {InputGrid, InputTextBox};
+import  AlertDiv from './AlertDiv';
+
+export {InputGrid, InputTextBox, AlertDiv};

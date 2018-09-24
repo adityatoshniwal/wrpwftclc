@@ -1,6 +1,9 @@
 import React from 'react';
 import SavedItemList from './saveditemlist';
-import { url_for } from 'sources/utils/url_for';
+import {AlertDiv} from 'sources/components';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addItem, fetchItems} from './searchReducer';
 
 class Search extends React.Component {
     constructor() {
@@ -20,37 +23,47 @@ class Search extends React.Component {
     }
 
     componentDidMount() {
-        return $.ajax(
-            url_for('items'),
-            {
-                method : "GET",
-                dataType : "json",
-                contentType : "application/json; charset=utf-8",
-            })
-            .done((resp) => {
-                this.setState({
-                    itemsList : resp.data
-                });
-            });
+        this.props.fetchItems();
     }    
-
+    
     render() {
-        return(
-            <div>
-                <div class="search-bar">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white">
-                                <i class="la la-search la-lg"></i>
-                            </span>
+        if(this.props.search.isFetching) {
+            return(
+                <AlertDiv type="info" message="Loading list..." />
+            );
+        } else if(this.props.search.itemsFetchFailed){
+            return(
+                <AlertDiv type="danger" message={this.props.search.itemsFetchError} />
+            );
+        } else {
+            return(
+                <div>
+                    <div class="search-bar">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white">
+                                    <i class="la la-search la-lg"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Search" onChange={this.handleSearchChange} />
                         </div>
-                        <input type="text" class="form-control" placeholder="Search" onChange={this.handleSearchChange} />
                     </div>
-                </div>
-                <SavedItemList itemsList={this.state.itemsList} />
-            </div>            
-        );
+                    <SavedItemList itemsList={this.props.search.itemsList} />
+                </div>            
+            );
+        }
     }
 }
 
-export default Search;
+function mapStateToProps(state) {
+    return {
+        search: state.search
+    }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+        addItem,
+        fetchItems,
+    }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

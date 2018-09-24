@@ -4,7 +4,7 @@ import json
 from .sql import ITEM_SQL
 from utils import form_response
 
-import json
+import json, time
 
 blueprint = Blueprint('items',__name__,template_folder='templates')
 
@@ -13,6 +13,7 @@ blueprint = Blueprint('items',__name__,template_folder='templates')
 @blueprint.route('', defaults={"id": None}, methods=['GET'])
 @blueprint.route('/<id>', methods=['GET'])
 def get_item(id):
+    time.sleep(5)
     if id is None:
         try:
             with DBConnection() as conn:

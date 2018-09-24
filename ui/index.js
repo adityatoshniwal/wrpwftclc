@@ -2,16 +2,20 @@ import 'bootstrap'
 import 'sources/styles/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// import * as alertify from 'alertifyjs';
 import 'sources/tools/alertify-defaults';
-
-// import {SavedItemListView} from 'sources/saveditems/saveditems';
 
 import {AppRouter} from 'sources/utils/router'
 import { RESTSession } from 'sources/utils/rest_caller';
 import { getCookie, loadUrl } from 'sources/utils/utils';
 import App from './app';
+
+import {Provider} from 'react-redux';
+
+import store from 'sources/store';
+
+store.subscribe(()=>{
+    console.log(store.getState());
+});
 
 const $preloader = $('.loader');
 
@@ -20,7 +24,9 @@ $preloader.toggleClass('open');
 window.app_rest = new RESTSession();
 
 ReactDOM.render(
-    <App />,
+    <Provider store={store}>
+    <App />
+    </Provider>,
     document.getElementById("app-content")
 );
 

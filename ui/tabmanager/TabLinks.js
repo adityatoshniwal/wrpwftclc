@@ -1,7 +1,4 @@
 import React from 'react';
-import Settings from 'sources/settings/Settings';
-import Search from 'sources/search/Search';
-import ItemDetails from 'sources/itemdetails/ItemDetails';
 
 export default class TabLinks extends React.Component {
     constructor(){
