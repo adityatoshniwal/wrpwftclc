@@ -9,8 +9,7 @@ class Search extends React.Component {
     constructor() {
         super()
         this.state = {
-            search: '',
-            itemsList: [],
+            isModalOpen : false,
         }
 
         this.handleSearchChange = this.handleSearchChange.bind(this);

@@ -1,6 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default class TabLinks extends React.Component {
+import {tabActions} from './tabActionReducer';
+
+class TabLinks extends React.Component {
     constructor(){
         super()
         this.handleTabClick = this.handleTabClick.bind(this);
@@ -9,7 +13,7 @@ export default class TabLinks extends React.Component {
 
     handleTabClick(e) {
         e.stopPropagation();
-        this.props.changeActiveId(e.target.id);
+        this.props.setActiveId(e.target.id);
     }
 
     handleTabCloseClick(e) {
@@ -19,19 +23,17 @@ export default class TabLinks extends React.Component {
 
     render() {
         let self = this;
-        let activeId = this.props.activeId;
-        let handleTabClick = this.handleTabClick;
-        let handleTabCloseClick = this.handleTabCloseClick;
         return (
             <ul className="nav nav-tabs" id="container-tab-buttons" role="tablist">
-                {this.props.tabs.map(function(tab) {
+                {Object.keys(this.props.tabsstore).map((tabid) => {
+                    let tab = this.props.tabsstore[tabid];
                     return (
                         <li key={tab.id} className="nav-item">
-                            <a className={"nav-link " + (tab.id === self.props.activeId ? "active":"")} id={tab.id} data-toggle="tab" 
+                            <a className={"nav-link " + (tabid === self.props.active_id ? "active":"")} id={tabid} data-toggle="tab" 
                                href={"#"+tab.content_id} role="tab" aria-controls={tab.content_id} onClick={self.handleTabClick}
-                               aria-selected={(tab.id === self.props.activeId ? "true":"false")}>
+                               aria-selected={(tabid === self.props.active_id ? "true":"false")}>
                                 {tab.title}
-                                <button data-tabid={""+tab.id} class={"nav-close la la-close la-1x btn-plain-noborder " + (tab.closeable?"":"btn-hide")} 
+                                <button data-tabid={""+tabid} class={"nav-close la la-close la-1x btn-plain-noborder " + (tab.closeable?"":"btn-hide")} 
                                         onClick={self.handleTabCloseClick}
                                 />
                             </a>
@@ -42,3 +44,19 @@ export default class TabLinks extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        ...state.tabs,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators({
+            ...tabActions,
+        }, dispatch)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabLinks);

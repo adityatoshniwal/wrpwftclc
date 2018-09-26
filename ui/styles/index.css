@@ -9,9 +9,11 @@
 @import '~node_modules/formulize/dist/formulize.css';
 @import '~sources/styles/line-awesome.css';
 
+
 /* App */
 @import '~sources/styles/bootstrap-override.scss';
 @import '~sources/styles/_common.scss';
+@import '~sources/styles/react-modal-overrides.scss';
 
 /* Modules */
 @import '~sources/search/search';

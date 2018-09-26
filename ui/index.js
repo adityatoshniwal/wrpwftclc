@@ -2,6 +2,8 @@ import 'bootstrap'
 import 'sources/styles/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
+
 import 'sources/tools/alertify-defaults';
 
 import {AppRouter} from 'sources/utils/router'
@@ -22,6 +24,8 @@ const $preloader = $('.loader');
 $preloader.toggleClass('open');
 
 window.app_rest = new RESTSession();
+
+Modal.setAppElement(document.getElementById("app-content"));
 
 ReactDOM.render(
     <Provider store={store}>

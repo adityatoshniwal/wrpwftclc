@@ -2,8 +2,12 @@ import React from 'react';
 import Search from 'sources/search/Search';
 import Settings from 'sources/settings/Settings';
 import ItemDetails from 'sources/itemdetails/ItemDetails';
+import {tabActions} from './tabActionReducer';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default function TabContent(props) {
+
+function TabContent(props) {
 
     let returnModule = function(type) {
         switch(type) {
@@ -24,13 +28,30 @@ export default function TabContent(props) {
 
     return(
         <div className="tab-content py-2" id="container-tab-div">
-            {props.tabs.map(function(tab) {
-                    return(
-                        <div className={"tab-pane vertical-scrollbar " + (tab.id === props.activeId ? "show active":"")} id={tab.content_id} role="tabpanel" aria-labelledby={tab.id}>
-                            {returnModule(tab.type)}
-                        </div>    
-                    );
+            {Object.keys(props.tabsstore).map((tabid) => {
+                let tab = props.tabsstore[tabid];
+                return(
+                    <div className={"tab-pane vertical-scrollbar " + (tabid === props.active_id ? "show active":"")} id={tab.content_id} role="tabpanel" aria-labelledby={tabid}>
+                        {returnModule(tab.type)}
+                    </div>    
+                );
             })}
         </div>
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        ...state.tabs,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators({
+            ...tabActions,
+        }, dispatch)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabContent);

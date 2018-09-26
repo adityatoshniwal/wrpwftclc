@@ -1,34 +1,22 @@
 import React from 'react';
 import TabContent from 'sources/tabmanager/TabContent';
 import TabLinks from 'sources/tabmanager/TabLinks';
+import {tabActions} from 'sources/tabmanager/tabActionReducer';
+
+import ReactModal from 'react-modal';
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            tabs: [{
-                id: "search-tab",
-                content_id: "search-content",
-                title: "Search",
-                type: "search",
-                closeable: false,
-            },{
-                id: "settings-tab",
-                content_id: "settings-content",
-                title: "Settings",
-                type: "settings",
-                closeable: true,
-            }],
-            active_id: "search-tab",
+            isModalOpen:false,
         }
 
         this.handleAddClick = this.handleAddClick.bind(this);
-        this.changeActiveId = this.changeActiveId.bind(this);
-        this.closeTabId = this.closeTabId.bind(this);
-    }
-
-    changeActiveId(activeId) {
-        this.setState({active_id:activeId});
     }
 
     changeActiveTabTitle(title) {
@@ -45,52 +33,25 @@ class App extends React.Component {
         }
     }
 
-    closeTabId(tabId) {
-        let newTabs = [];
-        let prevTabId = "search-tab";
-        let closeIndex = 0;
-        let activeId = null;
-        this.state.tabs.forEach(function(tab, i){
-            if(tab.id === tabId) {
-                activeId = prevTabId;
-                closeIndex = i;
-            }
-            else {
-                newTabs.push(tab);
-            }
-            prevTabId = tab.id;
-        });
-        
-        if(closeIndex > newTabs.length-1) {
-            closeIndex = newTabs.length-1;
-        }
+    handleAddClick(e){
+        this.props.openNewTab('item');
+    }
 
-        this.setState({
-            tabs:newTabs,
-            active_id:newTabs[closeIndex].id,
+    handleMClick(e){
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                isModalOpen: true,
+            };
         });
     }
 
-    handleAddClick(e) {
-        let newTab = {
-            title: "Untitled",
-            type: "itemdetails",
-            closeable: true,            
-        };
-
-        let currDate = new Date(),
-            newId = currDate.getDate()
-                +""+currDate.getHours()
-                +""+currDate.getMinutes()
-                +""+currDate.getSeconds()
-                +""+currDate.getMilliseconds();
-        
-        newTab.id = newId +"-tab";
-        newTab.content_id = newId +"-content";
-        
-        this.setState({
-            tabs: [...this.state.tabs, newTab],
-            active_id: newTab.id,
+    onModalClose() {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                isModalOpen: false,
+            };
         });
 
     }
@@ -100,9 +61,12 @@ class App extends React.Component {
             <div>
                 <div className="row main-top-nav">
                     <div className="col-10">
-                        <TabLinks tabs={this.state.tabs} activeId={this.state.active_id} changeActiveId={this.changeActiveId} closeTabId={this.closeTabId}/>
+                        <TabLinks />
                     </div>
                     <div className="col-2 text-right">
+                        <div href="#" className="btn btn-sm btn-plain" id="btnAdd" onClick={this.handleMClick.bind(this)}>
+                            <i className="">M</i>
+                        </div>
                         <div href="#" className="btn btn-sm btn-plain" id="btnAdd" data-route="module/newitem" onClick={this.handleAddClick}>
                             <i className="la la-plus la-2x"></i>
                         </div>
@@ -111,10 +75,29 @@ class App extends React.Component {
                         </a>
                     </div>
                 </div>
-                <TabContent tabs={this.state.tabs} activeId={this.state.active_id}/>
+                <TabContent />
+                <ReactModal
+                    isOpen = {this.state.isModalOpen}
+                    onRequestClose={this.onModalClose.bind(this)}>
+                    <h1>Hello Modal</h1>
+                </ReactModal>
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        ...state,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators({
+            openNewTab:tabActions.openNewTab,
+        }, dispatch)
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
