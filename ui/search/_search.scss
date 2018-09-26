@@ -18,4 +18,12 @@
     border-bottom: 1px;
     border-bottom-style: solid;
     border-bottom-color: $color-black-4;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+.itemslist-section {
+    padding-top: 50px;
 }
