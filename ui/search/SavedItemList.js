@@ -11,7 +11,7 @@ function SavedItemList(props) {
             <ul>
                 {props.itemsList.map((item) => {
                     return(
-                        <li className={"p-2 saveditem-item "+(isVisible(item.itemName)?'':'d-none')}
+                        <li className={"saveditem-item my-2 "+(isVisible(item.itemName)?'':'d-none')}
                             data-route={"module/newitem/"+item.id}>
                             <div className="row">
                                 <div className="col-9">
@@ -22,7 +22,7 @@ function SavedItemList(props) {
                                     </div>
                                 </div>
                                 <div className="col-3 text-right my-auto">
-                                    <a href="#" className="btn btn-sm btn-plain saveditem-item-remove" title="Remove">
+                                    <a href="#" className="btn btn-sm btn-light saveditem-item-remove" >
                                         <i className="la la-trash la-2x"></i>
                                     </a>
                                 </div>

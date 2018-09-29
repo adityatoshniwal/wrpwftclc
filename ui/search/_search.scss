@@ -1,23 +1,21 @@
 .saveditem-item {
+    @extend .bordered-box;
     &:hover {
         cursor: pointer;
-        border-color: $color-black-3;
-        box-shadow: 5px 0px 5px$color-black-3;
+        // border-color: $color-black-3;
+        // box-shadow: 5px 0px 5px$color-black-3;
     }
-    border-top: 1px;
-    border-bottom: 1px;
-    border-top-style: solid;
-    border-bottom-style: solid;
-    border-top-color: $color-black-4;
-    border-bottom-color: $color-black-4;
-    margin: -1px 0px;
+    // border-top: 1px;
+    // border-bottom: 1px;
+    // border-top-style: solid;
+    // border-bottom-style: solid;
+    // border-top-color: $color-black-4;
+    // border-bottom-color: $color-black-4;
+    // margin: -1px 0px;
 }
 
 
 .search-bar {
-    border-bottom: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: $color-black-4;
     position: absolute;
     right: 0px;
     left: 0px;

@@ -16,7 +16,8 @@ const initialState = {
     active_id: "search-tab",
 }
 
-export default (state = initialState, action) => {
+export function tabReducer(state = initialState, action) {
+    let newTabs = null;
     switch(action.type) {
         case 'NEW_ITEM':
             let newTab = {
@@ -44,28 +45,38 @@ export default (state = initialState, action) => {
             break;
         
         case 'CLOSE_TAB':
-            let newTabs = state.tabsstore;
-            let closeIndex = 0;
-            let activeId = null;
+            newTabs = {...state.tabsstore};
 
-            closeIndex = Object.keys(state.tabsstore).indexOf(action.payload);
-            delete newTabs[action.payload]
-            if(closeIndex > newTabs.length) {
-                closeIndex = newTabs.length;
+            let closeIndex = Object.keys(newTabs).indexOf(action.payload),
+                activeTabId = null;
+            delete newTabs[action.payload];
+
+            let newKeys = Object.keys(newTabs);
+            if(closeIndex > newKeys.length-1) {
+                closeIndex = newKeys.length-1;
             }
-            activeId = Object.keys(state.tabsstore)[closeIndex];
+            activeTabId = newKeys[closeIndex];
 
             return {
                 ...state,
                 tabsstore: newTabs,
-                active_id: activeId,
+                active_id: activeTabId,
             };
             break;
         case 'SET_ACTIVE_ID':
             return {
                 ...state,
                 active_id: action.payload,
-            }
+            };
+            break;
+        case 'SET_TAB_TITLE':
+            newTabs = {...state.tabsstore};
+            newTabs[state.active_id].title = action.payload;
+            return {
+                ...state,
+                tabsstore: newTabs,
+            };
+            break;
         default:
             return state;       
     }
@@ -79,9 +90,12 @@ export const tabActions = {
         }
     },
     closeTabId: (tabid) => {
-        return {type: 'CLOSE_TAB', payload: tabid}
+        return {type: 'CLOSE_TAB', payload: tabid};
     },
     setActiveId: (tabid) => {
-        return {type: 'SET_ACTIVE_ID', payload: tabid}
+        return {type: 'SET_ACTIVE_ID', payload: tabid};
+    },
+    setTabTitle: (title) => {
+        return {type: 'SET_TAB_TITLE', payload: title};
     }
 };

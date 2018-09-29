@@ -16,7 +16,7 @@ import {Provider} from 'react-redux';
 import store from 'sources/store';
 
 store.subscribe(()=>{
-    console.log(store.getState());
+    // console.log(store.getState());
 });
 
 const $preloader = $('.loader');
@@ -24,8 +24,6 @@ const $preloader = $('.loader');
 $preloader.toggleClass('open');
 
 window.app_rest = new RESTSession();
-
-Modal.setAppElement(document.getElementById("app-content"));
 
 ReactDOM.render(
     <Provider store={store}>

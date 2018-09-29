@@ -100,34 +100,34 @@ export default class InputGrid extends React.Component {
         // });
 
         return(
-            <table className="m-auto formulagrid" id={this.props.gridId}>
+            <table className="m-auto inputgrid" id={this.props.gridId}>
                 <thead>
-                    <tr className="border-bottom">
+                    <tr>
                         <td></td>
                         {self.props.columns.map(function(column){
                             return(
                                 <td>
-                                    <input className="rounded-0 mx-1 form-control form-control-sm border border-0 bg-white unselectable" 
+                                    <input className="mx-1 form-control form-control-sm inputgrid-col-header" 
                                         value={column.header} tabindex="-1" data-formula="" readonly/>
                                 </td>
                             )
                         })}
                     </tr>
                 </thead>
-                <tbody className="formulagrid-rows">
+                <tbody className="inputgrid-rows">
                     {self.props.rows.map((row, rowno)=>{
                         return(
-                            <tr className="formulagrid-row">
+                            <tr className="inputgrid-row">
                                 <td>
-                                    <a href="#" className="btn btn-sm border-0 rounded-0 btn-white formulagrid-row-remove"
+                                    <a href="#" className="btn btn-sm btn-light inputgrid-row-remove"
                                         data-row={rowno} onClick={this.handleRemoveRowClick}>
                                         <i className="la la-minus-square la-lg mr-1 text-danger"></i>
                                     </a>
                                 </td>
                                 {self.props.columns.map((column, colno)=>{
                                     return(                                        
-                                        <td className="formulagrid-col">
-                                            <input className="rounded-0 m-0 form-control form-control-sm" maxlength="10" value={column.accessor(row)}
+                                        <td className="inputgrid-col">
+                                            <input className="m-0 form-control form-control-sm" maxlength="10" value={column.accessor(row)}
                                                 data-col={colno} data-row={rowno} onChange={this.handleTextChange}
                                                 readOnly={column.readonly}
                                             />
@@ -137,16 +137,16 @@ export default class InputGrid extends React.Component {
                             </tr>                            
                         )
                     })}
-                    <tr className="formulagrid-row">
+                    <tr className="inputgrid-row">
                         <td>
-                            <a className="btn btn-sm border-0 rounded-0 btn-white formulagrid-row-remove">
+                            <a className="btn btn-sm border-0 btn-white inputgrid-row-remove">
                                 <i className="la la-calculator la-lg mr-1 text-primary"></i>
                             </a>
                         </td>
                         {self.props.columns.map((column, colno)=>{
                             return(                                        
-                                <td className="formulagrid-col">
-                                    <input className="rounded-0 m-0 form-control form-control-sm" maxlength="10" value={this.state.total[colno]}
+                                <td className="inputgrid-col">
+                                    <input className=" m-0 form-control form-control-sm" maxlength="10" value={this.state.total[colno]}
                                       data-col={colno} data-row="total" disabled={column.total === undefined?true:!column.total} onChange={this.handleTextChange}/>
                                 </td>
                             )
@@ -156,13 +156,13 @@ export default class InputGrid extends React.Component {
                 <tfoot>
                     <tr>
                         <td>
-                            <a href="#" className="btn btn-sm border-0 rounded-0 formulagrid-add" data-toggle="tooltip" title="Add row"
+                            <a href="#" className="btn btn-sm border-0  inputgrid-add" data-toggle="tooltip" title="Add row"
                                 onClick={this.handleAddRowClick}>
                                 <i className="la la-plus-square la-lg mr-1 text-success"></i>
                             </a>
                         </td>
                         <td className="text-left">
-                            <a href="#" className="btn btn-sm border-0 rounded-0 formulagrid-reset" data-toggle="tooltip" title="Reset Grid"
+                            <a href="#" className="btn btn-sm border-0  inputgrid-reset" data-toggle="tooltip" title="Reset Grid"
                                 onClick={this.handleResetClick}>
                                 <i className="la la-retweet la-lg mr-1 text-danger"></i>
                             </a>

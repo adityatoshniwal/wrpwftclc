@@ -19,7 +19,7 @@ function TabContent(props) {
                 <Settings />
             )
             break;
-            case 'itemdetails': return (
+            case 'item': return (
                 <ItemDetails />
             )
             break;                
@@ -27,7 +27,7 @@ function TabContent(props) {
     };
 
     return(
-        <div className="tab-content py-2" id="container-tab-div">
+        <div className="tab-content py-1" id="container-tab-div">
             {Object.keys(props.tabsstore).map((tabid) => {
                 let tab = props.tabsstore[tabid];
                 return(

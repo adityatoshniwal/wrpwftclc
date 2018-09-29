@@ -64,13 +64,13 @@ class App extends React.Component {
                         <TabLinks />
                     </div>
                     <div className="col-2 text-right">
-                        <div href="#" className="btn btn-sm btn-plain" id="btnAdd" onClick={this.handleMClick.bind(this)}>
+                        <div href="#" className="btn btn-sm btn-light" id="btnAdd" onClick={this.handleMClick.bind(this)}>
                             <i className="">M</i>
                         </div>
-                        <div href="#" className="btn btn-sm btn-plain" id="btnAdd" data-route="module/newitem" onClick={this.handleAddClick}>
+                        <div href="#" className="btn btn-sm btn-light" id="btnAdd" data-route="module/newitem" onClick={this.handleAddClick}>
                             <i className="la la-plus la-2x"></i>
                         </div>
-                        <a href="#" className="btn btn-sm btn-plain" id="btnLogout">
+                        <a href="#" className="btn btn-sm btn-light" id="btnLogout">
                             <i className="la la-power-off la-2x text-danger"></i>
                         </a>
                     </div>

@@ -35,7 +35,7 @@ class Search extends React.Component {
         } else {
             return(
                 <div>
-                    <div class="search-bar mx-2">
+                    <div class="search-bar bg-light p-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-white">

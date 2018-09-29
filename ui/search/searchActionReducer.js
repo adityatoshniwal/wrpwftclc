@@ -52,33 +52,6 @@ export function searchReducer(state = initialState, action) {
     }
 }
 
-export function addItem() {
-    return {type:'ADD_ITEM'};
-}
-
-export function setSearchText(text) {
-    return {type:'SEARCH_TEXT', payload: text};
-}
-
-export function fetchItems() {
-    return (dispatch) => {
-        dispatch({type:'FETCH_ITEMS_START'});
-        $.ajax(
-            url_for('items'),
-            {
-                method : "GET",
-                dataType : "json",
-                contentType : "application/json; charset=utf-8",
-            }
-        ).done((resp) => {
-            dispatch({type:'FETCH_ITEMS_DONE', payload: {status:true, data:resp.data }});
-        }).fail((resp) => {
-            let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
-            dispatch({type:'FETCH_ITEMS_DONE', payload: {status:false, error:error}});
-        });
-    };
-}
-
 export const searchActions = {
     addItem: () => {
         return {type:'ADD_ITEM'};

@@ -2,8 +2,9 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 
 import itemDetailsReducer from 'sources/itemdetails/itemActionReducer';
-import tabReducer from 'sources/tabmanager/tabActionReducer';
+
 import {searchReducer} from 'sources/search/searchActionReducer';
+import {tabReducer} from 'sources/tabmanager/tabActionReducer';
 
 const reducers = {
     item: itemDetailsReducer,
