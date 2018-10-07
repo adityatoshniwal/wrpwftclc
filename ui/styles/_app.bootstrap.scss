@@ -10,26 +10,11 @@ $border-radius-sm: 0.5rem;
 $border-radius-lg: 0.5rem;
 $grid-gutter-width: 15px;
 
-// $nav-tabs-border-width: 0px;
-// $nav-tabs-link-active-bg: $primary-color;
-// $nav-tabs-link-active-color: #fff;
-
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
-
 
 /* App specific */
 $border-gray : gray("300");
 $shadow-gray : gray("200");
-
-// .nav-item, .nav-link  {
-//     border: 1px solid $border-gray;
-//     border-radius: $border-radius;
-//     color: #000;   
-// }
-
-// .nav-item {
-//     margin: 2px;
-// }
 
 .bordered-box {
     border: 1px solid $border-gray;

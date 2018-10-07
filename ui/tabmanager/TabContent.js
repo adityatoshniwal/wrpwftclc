@@ -12,7 +12,7 @@ function TabContent(props) {
     let returnModule = function(tab) {
         switch(tab.type) {
             case 'search': return (
-                <Search />
+                <Search refresh={tab.refresh}/>
             )
             break;
             case 'settings': return (

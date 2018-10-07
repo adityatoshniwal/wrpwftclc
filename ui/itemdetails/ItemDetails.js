@@ -135,6 +135,7 @@ class ItemDetails extends React.Component {
                     id: resp.data,
                 }
             }));
+            this.props.refreshTab('search-tab');
         }).fail((resp) => {
             let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
             this.setState({
@@ -386,6 +387,7 @@ class ItemDetails extends React.Component {
 function mapDispatchToProps(dispatch) {
     return {
         setTabTitle: (...args) => dispatch(tabActions.setTabTitle(...args)),
+        refreshTab: (...args) => dispatch(tabActions.refreshTab(...args)),
     }
 }
 

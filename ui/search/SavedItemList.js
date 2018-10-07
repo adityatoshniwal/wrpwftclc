@@ -1,11 +1,12 @@
 import React from 'react';
 
 function SavedItemList(props) {
-    let isVisible = (itemText) => itemText.toLowerCase().indexOf(props.searchText.toLowerCase()) > -1
+    let isVisible = (itemText) => itemText.toLowerCase().indexOf(props.searchText.toLowerCase()) > -1;
+    let sortedList = _.sortBy(props.itemsList, (item)=>item.title.toLowerCase());
     return(
         <div class="itemslist-section">
             <ul>
-                {props.itemsList.map((item) => {
+                {sortedList.map((item) => {
                     return(
                         <li className={"saveditem-item my-2 "+(isVisible(item.title)?'':'d-none')}
                             data-item-id={item.id} onClick={props.handleItemClick}>

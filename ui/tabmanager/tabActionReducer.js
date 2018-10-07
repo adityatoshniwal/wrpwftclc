@@ -5,12 +5,14 @@ const initialState = {
             title: "Search",
             type: "search",
             closeable: false,
+            refresh: 0,
         }, {
             tab_id: "settings-tab",
             content_id: "settings-content",
             title: "Settings",
             type: "settings",
             closeable: false,
+            refresh: true,
         },
     ],
     active_id: "search-tab",
@@ -84,6 +86,20 @@ export function tabReducer(state = initialState, action) {
                 ],
             };
             break;
+
+        case 'REFRESH_TAB':
+            let refreshIndex = _.findIndex(state.tabsstore, {tab_id: action.payload});
+            return {
+                ...state,
+                tabsstore: [
+                    ...state.tabsstore.slice(0, refreshIndex),
+                    {
+                        ...state.tabsstore[refreshIndex],
+                        refresh: !state.tabsstore[refreshIndex].refresh,
+                    },
+                    ...state.tabsstore.slice(refreshIndex+1),
+                ],
+            }
         default:
             return state;       
     }
@@ -102,5 +118,8 @@ export const tabActions = {
     },
     setTabTitle: (title) => {
         return {type: 'SET_TAB_TITLE', payload: title};
+    },
+    refreshTab: (tabid) => {
+        return {type: 'REFRESH_TAB', payload: tabid};
     }
 };

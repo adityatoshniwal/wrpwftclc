@@ -64,6 +64,13 @@ class Search extends React.Component {
     componentDidMount() {
         this.fetchItems();
     }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.refresh != this.props.refresh) {
+            console.log('do refresh');
+            this.fetchItems();
+        }
+    }
         
     
     render() {
