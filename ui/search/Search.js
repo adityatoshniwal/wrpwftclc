@@ -1,36 +1,79 @@
 import React from 'react';
 import SavedItemList from './saveditemlist';
 import {AlertDiv} from 'sources/components';
+import { url_for } from 'sources/utils/url_for';
+
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {searchActions} from './searchActionReducer';
+import {tabActions} from 'sources/tabmanager/tabActionReducer';
 
 class Search extends React.Component {
     constructor() {
         super()
         this.state = {
-            isModalOpen : false,
+            searchText : '',
+            isFetching: false,
+            itemsFetchFailed: false,
+            itemsFetchError: '',
+            itemsList: [],
+            itemsCount: 0,
         }
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleItemClick = this.handleItemClick.bind(this);
     }
 
-    handleSearchChange(e){
-        this.props.setSearchText(e.target.value);
+    fetchItems() {
+        this.setState({
+            isFetching: true,
+            itemsFetchFailed: false,
+        });
+
+        $.ajax(
+            url_for('items'),
+            {
+                method : "GET",
+                dataType : "json",
+                contentType : "application/json; charset=utf-8",
+            }
+        ).done((resp) => {
+            this.setState({
+                isFetching: false,
+                itemsFetchFailed: false,
+                itemsList: resp.data,
+            });
+        }).fail((resp) => {
+            let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
+            this.setState({
+                isFetching: false,
+                itemsFetchFailed: true,
+                itemsFetchError: error,
+            });
+        });
+    }
+
+    handleSearchChange(e) {
+        this.setState({
+            searchText: e.target.value,
+        })
+    }
+
+    handleItemClick(e) {
+        console.log(e.currentTarget.getAttribute('data-item-id'));
     }
 
     componentDidMount() {
-        this.props.fetchItems();
-    }    
+        this.fetchItems();
+    }
+        
     
     render() {
-        if(this.props.isFetching) {
+        if(this.state.isFetching) {
             return(
                 <AlertDiv type="info" message="Loading list..." />
             );
-        } else if(this.props.itemsFetchFailed){
+        } else if(this.state.itemsFetchFailed){
             return(
-                <AlertDiv type="danger" message={this.props.itemsFetchError} />
+                <AlertDiv type="danger" message={this.state.itemsFetchError} />
             );
         } else {
             return(
@@ -42,29 +85,23 @@ class Search extends React.Component {
                                     <i class="la la-search la-lg"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Search" onChange={this.handleSearchChange} value={this.props.searchText} />
+                            <input type="text" class="form-control" placeholder="Search" onChange={this.handleSearchChange} value={this.state.searchText} />
                         </div>
                     </div>
-                    {/* <SavedItemList itemsList={this.props.itemsList} searchText={this.props.searchText} /> */}
-                    <SavedItemList />
+                    <SavedItemList itemsList={this.state.itemsList} searchText={this.state.searchText} 
+                        handleItemClick={this.handleItemClick}/>
                 </div>            
             );
         }
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        ...state.search,
-    }
-}
 
 const mapDispatchToProps = dispatch => {
     return {
-        ...bindActionCreators({
-            ...searchActions,
-        }, dispatch)
+        openNewTab : (dispatch) => dispatch(tabActions.openNewTab),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+
+export default connect(null, mapDispatchToProps)(Search);

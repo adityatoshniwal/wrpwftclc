@@ -1,8 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
-import {searchActions} from './searchActionReducer';
 
 function SavedItemList(props) {
     let isVisible = (itemText) => itemText.toLowerCase().indexOf(props.searchText.toLowerCase()) > -1
@@ -12,7 +8,7 @@ function SavedItemList(props) {
                 {props.itemsList.map((item) => {
                     return(
                         <li className={"saveditem-item my-2 "+(isVisible(item.itemName)?'':'d-none')}
-                            data-route={"module/newitem/"+item.id}>
+                            data-item-id={item.id} onClick={props.handleItemClick}>
                             <div className="row">
                                 <div className="col-9">
                                     <div className="text-40p">{item.itemName}</div>
@@ -35,18 +31,4 @@ function SavedItemList(props) {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        ...state.search,
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        ...bindActionCreators({
-            ...searchActions,
-        }, dispatch)
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SavedItemList);
+export default SavedItemList;
