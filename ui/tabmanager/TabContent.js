@@ -20,7 +20,7 @@ function TabContent(props) {
             )
             break;
             case 'item': return (
-                <ItemDetails item_id={tab.data.item_id}/>
+                <ItemDetails item_id={tab.item_id}/>
             )
             break;                
         }

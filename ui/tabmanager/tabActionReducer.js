@@ -21,16 +21,27 @@ const initialState = {
 export function tabReducer(state = initialState, action) {
     let newTabs = null;
     switch(action.type) {
-        case 'NEW_TAB':
+        case 'NEW_ITEM_TAB':
             let newTab = {
                 tab_id:'',
                 content_id: '',
                 title: 'New Item',
                 type: 'item',
                 closeable: true,
-                data: action.payload.data,
+                item_id: action.payload,
             };
 
+            /* If tab already open, then just make it active */
+            if(action.payload > 0) {
+                let openedTabIndex = _.findIndex(state.tabsstore, {type:'item', item_id: action.payload});
+                if(openedTabIndex > -1) {
+                    return {
+                        ...state,
+                        active_id: state.tabsstore[openedTabIndex].tab_id,
+                    };                    
+                }
+            }
+            
             let currDate = new Date(),
                 newId = currDate.getDate()
                     +""+currDate.getHours()
@@ -107,8 +118,8 @@ export function tabReducer(state = initialState, action) {
 
 
 export const tabActions = {
-    openNewTab: (type, data={})=>{
-        return {type: 'NEW_TAB', payload: {type, data}};
+    openItemTab: (item_id)=>{
+        return {type: 'NEW_ITEM_TAB', payload: item_id};
     },
     closeTabId: (tabid) => {
         return {type: 'CLOSE_TAB', payload: tabid};

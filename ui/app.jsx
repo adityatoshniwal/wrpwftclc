@@ -34,7 +34,7 @@ class App extends React.Component {
     }
 
     handleAddClick(e){
-        this.props.openNewTab('item', {item_id:0});
+        this.props.openItemTab(0);
     }
 
     handleMClick(e){
@@ -95,7 +95,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         ...bindActionCreators({
-            openNewTab:tabActions.openNewTab,
+            openItemTab:tabActions.openItemTab,
         }, dispatch)
     };
 };
