@@ -30,6 +30,9 @@ module.exports = {
         publicPath : '../'
     },
     devtool:'inline-source-map',
+    optimization:{
+        minimize: false,
+    },
     module : {
         rules : [
             {

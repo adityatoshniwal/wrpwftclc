@@ -11,7 +11,6 @@
 
 /* App */
 @import 'app.bootstrap.scss';
-/* @import '~sources/styles/bootstrap-override.scss'; */
 @import '~sources/styles/common';
 @import '~sources/styles/react-modal-overrides.scss';
 

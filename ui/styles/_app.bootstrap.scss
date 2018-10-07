@@ -1,5 +1,7 @@
+$primary-color: #0074d9;
+
 $theme-colors: (
-  "primary": #0074d9,
+  "primary": $primary-color,
   "danger": #ff4136,
   "light": #fff,
 );
@@ -8,11 +10,30 @@ $border-radius-sm: 0.5rem;
 $border-radius-lg: 0.5rem;
 $grid-gutter-width: 15px;
 
+// $nav-tabs-border-width: 0px;
+// $nav-tabs-link-active-bg: $primary-color;
+// $nav-tabs-link-active-color: #fff;
+
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 
+
+/* App specific */
+$border-gray : gray("300");
+$shadow-gray : gray("200");
+
+// .nav-item, .nav-link  {
+//     border: 1px solid $border-gray;
+//     border-radius: $border-radius;
+//     color: #000;   
+// }
+
+// .nav-item {
+//     margin: 2px;
+// }
+
 .bordered-box {
-    border: 1px solid gray("300");
+    border: 1px solid $border-gray;
     border-radius: 0.5rem;
     padding: 0.5rem;
-    box-shadow: 0 0 0.25rem gray("200");
+    box-shadow: 0 0 0.25rem $shadow-gray;
 }

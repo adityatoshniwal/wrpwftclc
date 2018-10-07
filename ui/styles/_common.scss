@@ -61,14 +61,10 @@
 //     color: $color-blue;
 //     padding: 0.25rem;
 // }
-.btn-hide {
-    display: none;
-}
-
 .main-top-nav {
     border-bottom: 1px !important;
     border-bottom-style: solid !important;
-    border-color: gray("300") !important;
+    border-color: $border-gray !important;
 }
 
 .btn-icon {

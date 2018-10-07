@@ -34,7 +34,7 @@ class App extends React.Component {
     }
 
     handleAddClick(e){
-        this.props.openNewTab('item');
+        this.props.openNewTab('item', {item_id:0});
     }
 
     handleMClick(e){
@@ -72,7 +72,7 @@ class App extends React.Component {
                         </div>
                         <a href="#" className="btn btn-sm btn-light" id="btnLogout">
                             <i className="la la-power-off la-2x text-danger"></i>
-                        </a>
+                        </a>                        
                     </div>
                 </div>
                 <TabContent />

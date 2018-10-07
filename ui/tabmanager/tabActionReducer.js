@@ -1,30 +1,32 @@
 const initialState = {
-    tabsstore: {
-        "search-tab": {
+    tabsstore: [{
+            tab_id: "search-tab",
             content_id: "search-content",
             title: "Search",
             type: "search",
             closeable: false,
-        },
-        "settings-tab": {
+        }, {
+            tab_id: "settings-tab",
             content_id: "settings-content",
             title: "Settings",
             type: "settings",
             closeable: false,
         },
-    },
+    ],
     active_id: "search-tab",
 }
 
 export function tabReducer(state = initialState, action) {
     let newTabs = null;
     switch(action.type) {
-        case 'NEW_ITEM':
+        case 'NEW_TAB':
             let newTab = {
+                tab_id:'',
                 content_id: '',
-                title: 'Untitled',
+                title: 'New Item',
                 type: 'item',
                 closeable: true,
+                data: action.payload.data,
             };
 
             let currDate = new Date(),
@@ -34,32 +36,29 @@ export function tabReducer(state = initialState, action) {
                     +""+currDate.getSeconds()
                     +""+currDate.getMilliseconds();
             
-            let newTabId = `i-${newId}-tab`;
+            newTab.tab_id = `i-${newId}-tab`;
             newTab.content_id = `i-${newId}-content`;
             
             return {
                 ...state,
-                tabsstore: {...state.tabsstore, [newTabId]:newTab},
-                active_id: newTabId,
+                tabsstore: [...state.tabsstore, newTab],
+                active_id: newTab.tab_id,
             }
             break;
         
         case 'CLOSE_TAB':
-            newTabs = {...state.tabsstore};
+            let closeIndex = 0,
+                activeTabId = '';
 
-            let closeIndex = Object.keys(newTabs).indexOf(action.payload),
-                activeTabId = null;
-            delete newTabs[action.payload];
-
-            let newKeys = Object.keys(newTabs);
-            if(closeIndex > newKeys.length-1) {
-                closeIndex = newKeys.length-1;
-            }
-            activeTabId = newKeys[closeIndex];
+            closeIndex = _.findIndex(state.tabsstore, {tab_id: action.payload});
+            activeTabId = state.tabsstore[closeIndex-1].tab_id;
 
             return {
                 ...state,
-                tabsstore: newTabs,
+                tabsstore : [
+                    ...state.tabsstore.slice(0, closeIndex),
+                    ...state.tabsstore.slice(closeIndex+1),
+                ],
                 active_id: activeTabId,
             };
             break;
@@ -70,11 +69,19 @@ export function tabReducer(state = initialState, action) {
             };
             break;
         case 'SET_TAB_TITLE':
-            newTabs = {...state.tabsstore};
-            newTabs[state.active_id].title = action.payload;
+            let activeIndex = _.findIndex(state.tabsstore, {tab_id: state.active_id});
+            // newTab = state.tabsstore[activeIndex];
+            // newTab.title = action.payload;
             return {
                 ...state,
-                tabsstore: newTabs,
+                tabsstore: [
+                    ...state.tabsstore.slice(0, activeIndex),
+                    {
+                        ...state.tabsstore[activeIndex],
+                        title: action.payload,
+                    },
+                    ...state.tabsstore.slice(activeIndex+1),
+                ],
             };
             break;
         default:
@@ -84,10 +91,8 @@ export function tabReducer(state = initialState, action) {
 
 
 export const tabActions = {
-    openNewTab: (type)=>{
-        if(type == 'item'){
-            return {type: 'NEW_ITEM'}
-        }
+    openNewTab: (type, data={})=>{
+        return {type: 'NEW_TAB', payload: {type, data}};
     },
     closeTabId: (tabid) => {
         return {type: 'CLOSE_TAB', payload: tabid};

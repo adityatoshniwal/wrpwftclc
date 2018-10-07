@@ -13,8 +13,8 @@ class TabLinks extends React.Component {
 
     handleTabClick(e) {
         e.stopPropagation();
-        console.log('Tab clicked - '+ e.target.id);
-        this.props.setActiveId(e.target.id);
+        console.log('Tab clicked - '+ e.currentTarget.id);
+        this.props.setActiveId(e.currentTarget.id);
     }
 
     handleTabCloseClick(e) {
@@ -26,18 +26,16 @@ class TabLinks extends React.Component {
     render() {
         let self = this;
         return (
-            <ul className="nav nav-tabs" id="container-tab-buttons" role="tablist">
-                {Object.keys(this.props.tabsstore).map((tabid) => {
-                    let tab = this.props.tabsstore[tabid];
+            <ul className="nav nav-pills" id="container-tab-buttons" role="tablist">
+                {this.props.tabsstore.map((tab) => {
                     return (
-                        <li key={tabid} className="nav-item" onClick={self.handleTabClick}>
-                            <a className={"nav-link " + (tabid === self.props.active_id ? "active":"")} id={tabid} data-toggle="tab" 
+                        <li key={tab.tab_id} className="nav-item" onClick={self.handleTabClick}>
+                            <a className={"nav-link " + (tab.tab_id === self.props.active_id ? "active":"")} id={tab.tab_id} data-toggle="tab" 
                                href={"#"+tab.content_id} role="tab" aria-controls={tab.content_id} onClick={self.handleTabClick}
-                               aria-selected={(tabid === self.props.active_id ? "true":"false")}>
-                                {tab.title}
-                                <button data-tabid={""+tabid} class={"nav-close la la-close la-1x btn-light " + (tab.closeable?"":"btn-hide")} 
-                                        onClick={self.handleTabCloseClick}
-                                />
+                               aria-selected={(tab.tab_id === self.props.active_id ? "true":"false")}>
+                                <span className="mr-1">{tab.title}</span>
+                                <a data-tabid={tab.tab_id} class={"nav-close la la-close la-1x " + (tab.closeable?"":"d-none")} 
+                                        onClick={self.handleTabCloseClick}></a>
                             </a>
                         </li>
                     );

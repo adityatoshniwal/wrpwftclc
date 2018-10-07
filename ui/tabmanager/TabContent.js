@@ -28,10 +28,10 @@ function TabContent(props) {
 
     return(
         <div className="tab-content py-1" id="container-tab-div">
-            {Object.keys(props.tabsstore).map((tabid) => {
-                let tab = props.tabsstore[tabid];
-                return(
-                    <div className={"tab-pane vertical-scrollbar " + (tabid === props.active_id ? "show active":"")} id={tab.content_id} role="tabpanel" aria-labelledby={tabid}>
+            {props.tabsstore.map((tab) => {
+                return (
+                    <div key={tab.tab_id} className={"tab-pane vertical-scrollbar " + (tab.tab_id === props.active_id ? "show active":"")} 
+                        id={tab.content_id} role="tabpanel" aria-labelledby={tab.tab_id}>
                         {returnModule(tab.type)}
                     </div>    
                 );
