@@ -9,8 +9,8 @@ import {bindActionCreators} from 'redux';
 
 function TabContent(props) {
 
-    let returnModule = function(type) {
-        switch(type) {
+    let returnModule = function(tab) {
+        switch(tab.type) {
             case 'search': return (
                 <Search />
             )
@@ -20,7 +20,7 @@ function TabContent(props) {
             )
             break;
             case 'item': return (
-                <ItemDetails />
+                <ItemDetails item_id={tab.data.item_id}/>
             )
             break;                
         }
@@ -32,7 +32,7 @@ function TabContent(props) {
                 return (
                     <div key={tab.tab_id} className={"tab-pane vertical-scrollbar " + (tab.tab_id === props.active_id ? "show active":"")} 
                         id={tab.content_id} role="tabpanel" aria-labelledby={tab.tab_id}>
-                        {returnModule(tab.type)}
+                        {returnModule(tab)}
                     </div>    
                 );
             })}

@@ -7,14 +7,14 @@ function SavedItemList(props) {
             <ul>
                 {props.itemsList.map((item) => {
                     return(
-                        <li className={"saveditem-item my-2 "+(isVisible(item.itemName)?'':'d-none')}
+                        <li className={"saveditem-item my-2 "+(isVisible(item.title)?'':'d-none')}
                             data-item-id={item.id} onClick={props.handleItemClick}>
                             <div className="row">
                                 <div className="col-9">
-                                    <div className="text-40p">{item.itemName}</div>
+                                    <div className="text-40p">{item.title}</div>
                                     <div className=""> {"Total Weight : " + item.totalWt + 
-                                                        " | Total Weight with Wastage : " + item.totalWtWaste + 
-                                                        " | Actual Cost : " + item.actualCost}
+                                                        " | Total Weight with Wastage : " + item.totalWtWstg + 
+                                                        " | Total Cost : " + item.totalCost}
                                     </div>
                                 </div>
                                 <div className="col-3 text-right my-auto">

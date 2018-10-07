@@ -25,10 +25,10 @@ def get_item(id):
             data_json = json.loads(item['data_json'])
             final_list.append({
                 "id": item['id'],
-                "itemName": data_json['itemName'],
+                "title": data_json['title'],
                 "totalWt": data_json['totalWt'],
-                "totalWtWaste": data_json['totalWtWaste'],
-                "actualCost": data_json['actualCost']
+                "totalWtWstg": data_json['totalWtWstg'],
+                "totalCost": data_json['totalCost']
             })
         return form_response(200,"",final_list)
     else:
@@ -41,7 +41,7 @@ def get_item(id):
         if ret_val is None:
             return form_response(404,"Item does not exist")
         else:
-            return form_response(200,"",ret_val)
+            return form_response(200,"",json.loads(ret_val))
 
 
 @blueprint.route('', methods=['POST'])
