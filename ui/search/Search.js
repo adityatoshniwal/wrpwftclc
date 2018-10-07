@@ -58,7 +58,7 @@ class Search extends React.Component {
     }
 
     handleItemClick(e) {
-        console.log(e.currentTarget.getAttribute('data-item-id'));
+        this.props.openNewTab('item', {item_id: e.currentTarget.getAttribute('data-item-id')});
     }
 
     componentDidMount() {
@@ -99,7 +99,7 @@ class Search extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        openNewTab : (dispatch) => dispatch(tabActions.openNewTab),
+        openNewTab : (...args) => dispatch(tabActions.openNewTab(...args)),
     };
 };
 

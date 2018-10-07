@@ -300,7 +300,7 @@ class ItemDetails extends React.Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setTabTitle: (title) => dispatch(tabActions.setTabTitle(title)),
+        setTabTitle: (...args) => dispatch(tabActions.setTabTitle(...args)),
     }
 }
 
