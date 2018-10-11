@@ -15,7 +15,7 @@ const initialState = {
             refresh: true,
         },
     ],
-    active_id: "search-tab",
+    active_id: "settings-tab",
 }
 
 export function tabReducer(state = initialState, action) {
@@ -72,7 +72,7 @@ export function tabReducer(state = initialState, action) {
                     ...state.tabsstore.slice(0, closeIndex),
                     ...state.tabsstore.slice(closeIndex+1),
                 ],
-                active_id: activeTabId,
+                active_id: (state.active_id===action.payload)?activeTabId:state.active_id,
             };
             break;
         case 'SET_ACTIVE_ID':

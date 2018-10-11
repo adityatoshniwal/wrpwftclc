@@ -2,11 +2,17 @@ import React from 'react';
 import TabContent from 'sources/tabmanager/TabContent';
 import TabLinks from 'sources/tabmanager/TabLinks';
 import {tabActions} from 'sources/tabmanager/tabActionReducer';
-
-import ReactModal from 'react-modal';
+import {modalActions} from 'sources/modal/modalActionReducer';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import Modal from 'sources/modal/Modal';
+
+function TestComponet() {
+    return(
+        <h1>This is testing of the ultimate modal !!</h1>
+    );
+}
 
 
 class App extends React.Component {
@@ -38,22 +44,7 @@ class App extends React.Component {
     }
 
     handleMClick(e){
-        this.setState((prevState) => {
-            return {
-                ...prevState,
-                isModalOpen: true,
-            };
-        });
-    }
-
-    onModalClose() {
-        this.setState((prevState) => {
-            return {
-                ...prevState,
-                isModalOpen: false,
-            };
-        });
-
+        this.props.openModal({content:<TestComponet/>});
     }
 
     render() {
@@ -76,11 +67,7 @@ class App extends React.Component {
                     </div>
                 </div>
                 <TabContent />
-                <ReactModal
-                    isOpen = {this.state.isModalOpen}
-                    onRequestClose={this.onModalClose.bind(this)}>
-                    <h1>Hello Modal</h1>
-                </ReactModal>
+                <Modal />
             </div>
         );
     }
@@ -96,6 +83,7 @@ const mapDispatchToProps = dispatch => {
     return {
         ...bindActionCreators({
             openItemTab:tabActions.openItemTab,
+            openModal: modalActions.openModal,
         }, dispatch)
     };
 };

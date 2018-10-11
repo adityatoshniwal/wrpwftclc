@@ -18,3 +18,38 @@
     pointer-events: none;
     border: none;
 }
+
+
+/*** Modal ***/
+.react-modal-main{
+    @extend .bordered-box;
+    @extend .d-flex;
+    @extend .flex-fill;
+    @extend .justify-content-center;
+
+    border-radius: 0rem;
+    background-color: theme-color('bg');
+}
+
+.react-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+    @extend .d-flex;
+    @extend .align-items-center;
+}
+
+.react-modal-body {
+    max-width: 500px;
+}
+
+.react-modal-content {
+    // max-width: 500px;
+}
+
+.react-modal-footer {
+    @extend .my-2;
+}

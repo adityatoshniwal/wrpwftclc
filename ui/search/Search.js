@@ -97,7 +97,7 @@ class Search extends React.Component {
                     </div>
                     <SavedItemList itemsList={this.state.itemsList} searchText={this.state.searchText} 
                         handleItemClick={this.handleItemClick}/>
-                </div>            
+                </div>
             );
         }
     }
