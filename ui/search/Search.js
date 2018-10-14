@@ -1,31 +1,44 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import SavedItemList from './saveditemlist';
 import {AlertDiv} from 'sources/components';
 import { url_for } from 'sources/utils/url_for';
-
-import {connect} from 'react-redux';
+import {modalActions} from 'sources/modal/modalActionReducer';
 import {tabActions} from 'sources/tabmanager/tabActionReducer';
+
+
+function ItemDeleteModal(props) {
+    return (
+        <span>Are you sure you want to delete - "{props.title}"</span>
+    )
+}
+
 
 class Search extends React.Component {
     constructor() {
         super()
         this.state = {
             searchText : '',
-            isFetching: false,
-            itemsFetchFailed: false,
-            itemsFetchError: '',
+            isCmdRunning: false,
+            cmdMessage: '',
+            cmdFailed: false,
+            cmdError: '',
+            cmdSuccess: '',
             itemsList: [],
             itemsCount: 0,
         }
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
     fetchItems() {
         this.setState({
-            isFetching: true,
-            itemsFetchFailed: false,
+            isCmdRunning: true,
+            cmdFailed: false,
         });
 
         $.ajax(
@@ -37,18 +50,49 @@ class Search extends React.Component {
             }
         ).done((resp) => {
             this.setState({
-                isFetching: false,
-                itemsFetchFailed: false,
+                isCmdRunning: false,
+                cmdFailed: false,
                 itemsList: resp.data,
             });
         }).fail((resp) => {
             let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
             this.setState({
-                isFetching: false,
-                itemsFetchFailed: true,
-                itemsFetchError: error,
+                isCmdRunning: false,
+                cmdFailed: true,
+                cmdError: error,
             });
         });
+    }
+
+    deleteItem(itemId) {
+        console.log('Delete item - ',itemId);
+
+        this.setState({
+            isCmdRunning: true,
+            cmdFailed: false,
+        });
+
+        $.ajax(
+            url_for('items')+"/"+itemId,
+            {
+                method : "DELETE",
+                dataType : "json",
+                contentType : "application/json; charset=utf-8",
+            }
+        ).done((resp) => {
+            this.setState({
+                isCmdRunning: false,
+                cmdFailed: false,
+            });
+            this.props.refreshTab('search-tab');
+        }).fail((resp) => {
+            let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
+            this.setState({
+                isCmdRunning: false,
+                cmdFailed: true,
+                cmdError: error,
+            });
+        });        
     }
 
     handleSearchChange(e) {
@@ -59,6 +103,21 @@ class Search extends React.Component {
 
     handleItemClick(e) {
         this.props.openItemTab(parseInt(e.currentTarget.getAttribute('data-item-id')));
+    }
+
+    handleDeleteClick(e) {
+        e.stopPropagation();
+        let self = this,
+            savedItem = $(e.currentTarget).closest('.saveditem-item'),
+            itemId = savedItem.attr('data-item-id'),
+            itemTitle = savedItem.attr('data-item-title');
+
+        this.props.openModal({
+            content:<ItemDeleteModal title={itemTitle}/>,
+            onOkClick: (e)=>{
+                self.deleteItem(itemId);
+            },
+        });
     }
 
     componentDidMount() {
@@ -74,13 +133,13 @@ class Search extends React.Component {
         
     
     render() {
-        if(this.state.isFetching) {
+        if(this.state.isCmdRunning) {
             return(
                 <AlertDiv type="info" message="Loading list..." />
             );
-        } else if(this.state.itemsFetchFailed){
+        } else if(this.state.cmdFailed){
             return(
-                <AlertDiv type="danger" message={this.state.itemsFetchError} />
+                <AlertDiv type="danger" message={this.state.cmdError} />
             );
         } else {
             return(
@@ -96,7 +155,7 @@ class Search extends React.Component {
                         </div>
                     </div>
                     <SavedItemList itemsList={this.state.itemsList} searchText={this.state.searchText} 
-                        handleItemClick={this.handleItemClick}/>
+                        handleItemClick={this.handleItemClick} handleDeleteClick={this.handleDeleteClick}/>
                 </div>
             );
         }
@@ -106,7 +165,11 @@ class Search extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        openItemTab : (...args) => dispatch(tabActions.openItemTab(...args)),
+        ...bindActionCreators({
+            openItemTab : tabActions.openItemTab,
+            refreshTab: tabActions.refreshTab,
+            openModal: modalActions.openModal,
+        }, dispatch)
     };
 };
 

@@ -32,6 +32,7 @@
 }
 
 .react-modal-overlay {
+    z-index: 10;
     position: fixed;
     top: 0;
     left: 0;
@@ -51,5 +52,7 @@
 }
 
 .react-modal-footer {
-    @extend .my-2;
+    @extend .mt-3;
+    @extend .d-flex;
+    @extend .justify-content-end;
 }

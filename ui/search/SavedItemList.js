@@ -9,7 +9,7 @@ function SavedItemList(props) {
                 {sortedList.map((item) => {
                     return(
                         <li className={"saveditem-item my-2 "+(isVisible(item.title)?'':'d-none')}
-                            data-item-id={item.id} onClick={props.handleItemClick}>
+                            data-item-id={item.id} data-item-title={item.title} onClick={props.handleItemClick}>
                             <div className="row">
                                 <div className="col-9">
                                     <div className="text-40p">{item.title}</div>
@@ -19,7 +19,7 @@ function SavedItemList(props) {
                                     </div>
                                 </div>
                                 <div className="col-3 text-right my-auto">
-                                    <a href="#" className="btn btn-sm btn-light saveditem-item-remove" >
+                                    <a href="#" className="btn btn-sm btn-light saveditem-item-remove" onClick={props.handleDeleteClick}>
                                         <i className="la la-trash la-2x"></i>
                                     </a>
                                 </div>

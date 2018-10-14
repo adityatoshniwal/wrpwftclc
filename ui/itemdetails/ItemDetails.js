@@ -1,9 +1,10 @@
 import React from 'react';
 import {InputTextBox, InputGrid} from 'sources/components';
 import { url_for } from 'sources/utils/url_for';
-
+import {bindActionCreators} from 'redux';
 
 import {tabActions} from 'sources/tabmanager/tabActionReducer';
+import {modalActions} from 'sources/modal/modalActionReducer';
 import {connect} from 'react-redux';
 
 class ItemDetails extends React.Component {
@@ -112,38 +113,66 @@ class ItemDetails extends React.Component {
     }
 
     handleSaveClick(e) {
+
         this.setState({
             isCmdRunning: true,
             cmdFailed: false,
         });
 
-        $.ajax(
-            url_for('items'),
-            {
-                method : "POST",
-                dataType : "json",
-                contentType : "application/json; charset=utf-8",
-                data: JSON.stringify(this.state.data),
-            }
-        ).done((resp) => {
-            this.setState((prevState) => ({
-                isCmdRunning: false,
-                cmdFailed: false,
-                cmdSuccess: resp.message,
-                data: {
-                    ...prevState.data,
-                    id: resp.data,
+        /* Update if existing */
+        if(this.state.data.id > 0) {
+            $.ajax(
+                url_for('items') + "/" + this.state.data.id,
+                {
+                    method : "PUT",
+                    dataType : "json",
+                    contentType : "application/json; charset=utf-8",
+                    data: JSON.stringify(this.state.data),
                 }
-            }));
-            this.props.refreshTab('search-tab');
-        }).fail((resp) => {
-            let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
-            this.setState({
-                isCmdRunning: false,
-                cmdFailed: true,
-                cmdError: error,
+            ).done((resp) => {
+                this.setState((prevState) => ({
+                    isCmdRunning: false,
+                    cmdFailed: false,
+                    cmdSuccess: resp.message,
+                }));
+                this.props.refreshTab('search-tab');
+            }).fail((resp) => {
+                let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
+                this.setState({
+                    isCmdRunning: false,
+                    cmdFailed: true,
+                    cmdError: error,
+                });
             });
-        });
+        } else {
+            $.ajax(
+                url_for('items'),
+                {
+                    method : "POST",
+                    dataType : "json",
+                    contentType : "application/json; charset=utf-8",
+                    data: JSON.stringify(this.state.data),
+                }
+            ).done((resp) => {
+                this.setState((prevState) => ({
+                    isCmdRunning: false,
+                    cmdFailed: false,
+                    cmdSuccess: resp.message,
+                    data: {
+                        ...prevState.data,
+                        id: resp.data,
+                    }
+                }));
+                this.props.refreshTab('search-tab');
+            }).fail((resp) => {
+                let error = `Failed with error code ${resp.status} - ${resp.statusText}`;
+                this.setState({
+                    isCmdRunning: false,
+                    cmdFailed: true,
+                    cmdError: error,
+                });
+            });
+        }
     }
 
     formulas(field) {
@@ -201,7 +230,7 @@ class ItemDetails extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="my-2">
                 <div className="itemdetails-body">
                     <div className="itemdetails-header bg-light">
                         <InputTextBox id="txtTitle" name="title" value={this.state.data.title} maxlength={50}
@@ -211,7 +240,7 @@ class ItemDetails extends React.Component {
                         <div class="col-10" id="section-top-left">
                             <div class="bordered-box mb-2" id="warp">
                                 <div class="text-center my-2">
-                                    <h5 class="my-auto">W A R P</h5>
+                                    <h5 class="my-auto text-primary">W A R P</h5>
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
@@ -248,7 +277,7 @@ class ItemDetails extends React.Component {
                             </div>
                             <div class="bordered-box mb-2" id="weft">
                                 <div class="text-center my-1">
-                                    <h5 class="my-auto">W E F T</h5>
+                                    <h5 class="my-auto text-primary">W E F T</h5>
                                 </div>            
                                 <div class="row">
                                     <div class="col-2">
@@ -287,7 +316,7 @@ class ItemDetails extends React.Component {
                         <div class="col-2" id="section-top-right">
                             <div class="bordered-box mb-2">
                                 <div class="text-center my-1">
-                                    <h5 class="my-auto">O T H E R S</h5>
+                                    <h5 class="my-auto text-primary">O T H E R S</h5>
                                 </div>
                                 <InputTextBox label="Warp Weight" name="warpWt" maxlength={10}
                                     value={this.state.data.warpWt} handleTextChange={this.handleTextChangeData} />
@@ -308,7 +337,7 @@ class ItemDetails extends React.Component {
                     </div>
                     <div id="section-bottom-1" class="bordered-box mb-2">
                         <div class="text-center my-1">
-                            <h5 class="my-auto">W A R P &nbsp;&nbsp; P A C K I N G</h5>
+                            <h5 class="my-auto text-primary">W A R P &nbsp;&nbsp; P A C K I N G</h5>
                         </div>
                         <InputGrid  
                             gridId="warppack-grid-container"
@@ -327,7 +356,7 @@ class ItemDetails extends React.Component {
                     </div>
                     <div id="section-bottom-2" class="bordered-box mb-2">
                         <div class="text-center my-1">
-                            <h5 class="my-auto">R A T E S</h5>
+                            <h5 class="my-auto text-primary">R A T E S</h5>
                         </div>
                         <div class="row">
                             <div class="col-2">
@@ -368,14 +397,14 @@ class ItemDetails extends React.Component {
                     </div>
                 </div>
                 <div class="itemdetails-footer bg-light">
-                    <button class="btn btn-secondary m-1" id="btn-save" onClick={this.handleSaveClick}>
-                        <i class="la la-save la-lg mr-1"></i>Save
+                    <button class="btn btn-primary m-1" id="btn-save" onClick={this.handleSaveClick}>
+                        Save
                     </button>
-                    <button class="btn btn-secondary m-1" id="btn-save-as">
-                        <i class="la la-save la-lg mr-1"></i>Save As
+                    <button class="btn btn-primary m-1" id="btn-save-as">
+                        Save As
                     </button>
                     <button class="btn btn-secondary m-1" id="btn-save-reset">
-                        <i class="la la-save la-lg mr-1"></i>Reset
+                        Reset
                     </button>
                 </div>
             </div>
@@ -386,8 +415,11 @@ class ItemDetails extends React.Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setTabTitle: (...args) => dispatch(tabActions.setTabTitle(...args)),
-        refreshTab: (...args) => dispatch(tabActions.refreshTab(...args)),
+        ...bindActionCreators({
+            setTabTitle: tabActions.setTabTitle,
+            refreshTab: tabActions.refreshTab,
+            openModal: modalActions.openModal,    
+        }, dispatch)
     }
 }
 

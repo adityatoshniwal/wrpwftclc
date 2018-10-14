@@ -8,13 +8,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Modal from 'sources/modal/Modal';
 
-function TestComponet() {
-    return(
-        <h1>This is testing of the ultimate modal !!</h1>
-    );
-}
-
-
 class App extends React.Component {
     constructor() {
         super();
@@ -43,10 +36,6 @@ class App extends React.Component {
         this.props.openItemTab(0);
     }
 
-    handleMClick(e){
-        this.props.openModal({content:<TestComponet/>});
-    }
-
     render() {
         return (
             <div>
@@ -55,12 +44,9 @@ class App extends React.Component {
                         <TabLinks />
                     </div>
                     <div className="col-2 text-right">
-                        <div href="#" className="btn btn-sm btn-light" id="btnAdd" onClick={this.handleMClick.bind(this)}>
-                            <i className="">M</i>
-                        </div>
-                        <div href="#" className="btn btn-sm btn-light" id="btnAdd" data-route="module/newitem" onClick={this.handleAddClick}>
+                        <a href="#" className="btn btn-sm btn-light" id="btnAdd" data-route="module/newitem" onClick={this.handleAddClick}>
                             <i className="la la-plus la-2x"></i>
-                        </div>
+                        </a>
                         <a href="#" className="btn btn-sm btn-light" id="btnLogout">
                             <i className="la la-power-off la-2x text-danger"></i>
                         </a>                        

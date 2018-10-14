@@ -38,10 +38,13 @@ def get_item(id):
         except Exception as e:
             return form_response(500, "Some Exception Occurred[{0}]".format(e))
 
+        ret_resp = json.loads(ret_val)
+        ret_resp['id'] = int(id)
+
         if ret_val is None:
             return form_response(404,"Item does not exist")
         else:
-            return form_response(200,"",json.loads(ret_val))
+            return form_response(200,"",ret_resp)
 
 
 @blueprint.route('', methods=['POST'])
@@ -58,10 +61,11 @@ def add_item():
 
 
 @blueprint.route('/<id>', methods=['DELETE'])
-def remove_item(conn,id):
+def remove_item(id):
     try:
-        retVal = conn.execute_void(ITEM_SQL["DELETE_SQL"]
-                                    .format(id))
+        with DBConnection() as conn:
+            retVal = conn.execute_void(ITEM_SQL["DELETE_SQL"]
+                     .format(id))
     except Exception as e:
         return form_response(500, "Some Exception Occurred[{0}]".format(e.message))
 
@@ -71,12 +75,13 @@ def remove_item(conn,id):
         return form_response(404, "Item Does not exist")
 
 @blueprint.route('/<id>', methods=['PUT'])
-def update_item(conn,id):
-    data = request.form['data']
+def update_item(id):
+    data = request.json
 
     try:
-        retVal = conn.execute_void(ITEM_SQL["UPDATE_SQL"]
-                                    .format(id, data))
+        with DBConnection() as conn:
+            retVal = conn.execute_void(ITEM_SQL["UPDATE_SQL"]
+                                        .format(id, json.dumps(data)))
     except Exception as e:
         return form_response(500, "Some Exception Occurred[{0}]".format(e.message))
 

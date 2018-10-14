@@ -15,7 +15,7 @@ const initialState = {
             refresh: true,
         },
     ],
-    active_id: "settings-tab",
+    active_id: "search-tab",
 }
 
 export function tabReducer(state = initialState, action) {
