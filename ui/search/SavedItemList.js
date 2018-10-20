@@ -20,7 +20,7 @@ function SavedItemList(props) {
                                 </div>
                                 <div className="col-3 text-right my-auto">
                                     <a href="#" className="btn btn-sm btn-light saveditem-item-remove" onClick={props.handleDeleteClick}>
-                                        <i className="la la-trash la-2x"></i>
+                                        <i className="fa fa-trash fa-2x"></i>
                                     </a>
                                 </div>
                             </div>

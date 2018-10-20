@@ -1,18 +1,19 @@
 @import './reset.css';
+@import 'app.bootstrap.scss';
 
 /* Externals */
 @import '~node_modules/alertifyjs/build/css/alertify.min.css';
 @import '~node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+@import '~node_modules/line-awesome/css/line-awesome.css';
+/* @import '~sources/styles/alertify-override.scss'; */
 /* @import '~sources/styles/alertify-override.scss'; */
 /* @import '~node_modules/bootstrap/dist/css/bootstrap.css'; */
 /* @import '~node_modules/formulize/dist/formulize.css'; */
-@import '~sources/styles/line-awesome.css';
-
 
 /* App */
-@import 'app.bootstrap.scss';
 @import '~sources/styles/common';
 @import '~sources/styles/react-modal-overrides.scss';
+@import '~sources/styles/loader.scss';
 
 /* Modules */
 @import '~sources/components/components';

@@ -6,7 +6,7 @@ import os
 from paste.translogger import TransLogger
 import appconfig
 
-import item, user
+import item, user, settings
 
 app = Flask('WarpWeft')
 app.secret_key = 'YouKnowNothing!'
@@ -14,6 +14,7 @@ CORS(app)
 
 app.register_blueprint(item.blueprint, url_prefix="/items")
 app.register_blueprint(user.blueprint, url_prefix="/users")
+app.register_blueprint(settings.blueprint, url_prefix="/settings")
 
 
 class Root:

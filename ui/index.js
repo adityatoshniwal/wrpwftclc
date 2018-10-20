@@ -19,15 +19,16 @@ store.subscribe(()=>{
     // console.log(store.getState());
 });
 
-const $preloader = $('.loader');
+// const $preloader = $('.loader');
 
-$preloader.toggleClass('open');
+// $preloader.toggleClass('open');
 
 window.app_rest = new RESTSession();
 
+
 ReactDOM.render(
     <Provider store={store}>
-    <App />
+        <App />
     </Provider>,
     document.getElementById("app-content")
 );
@@ -70,5 +71,4 @@ $(window).on('load',() => {
     //     );        
     // });
     
-    $preloader.toggleClass('open');
 });

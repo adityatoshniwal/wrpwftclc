@@ -148,7 +148,7 @@ class Search extends React.Component {
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-white">
-                                    <i class="la la-search la-lg"></i>
+                                    <i class="fa fa-search fa-lg"></i>
                                 </span>
                             </div>
                             <input type="text" class="form-control" placeholder="Search" onChange={this.handleSearchChange} value={this.state.searchText} />

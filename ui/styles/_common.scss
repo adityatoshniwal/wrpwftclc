@@ -19,33 +19,21 @@
     border: 0;
 }
 
-.loader {
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    z-index: 999;
-    &.open {
-        display: block;
-        cursor: wait;
-    }
-    
-    &-background {
-        position: absolute;
-        height: 100%;
-        width: 100%;        
-        background-color:color('white');
-        opacity: .5;
-    }
-    &-gif {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background-image: url('../images/loader.gif');
-        background-repeat:  no-repeat;
-        background-position: center;
-        background-size: 50px 50px;
-    }
+.loader-overlay {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: none;
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+}
+
+.loader-container .loader {
+    font-size: $font-size-base/3;
 }
 
 .main-top-nav {

@@ -121,7 +121,7 @@ export default class InputGrid extends React.Component {
                                 <td>
                                     <a href="#" className="btn btn-sm btn-light inputgrid-row-remove"
                                         data-row={rowno} onClick={this.handleRemoveRowClick}>
-                                        <i className="la la-minus-square la-lg mr-1 text-danger"></i>
+                                        <i className="fa fa-minus-square fa-lg mr-1 text-danger"></i>
                                     </a>
                                 </td>
                                 {self.props.columns.map((column, colno)=>{
@@ -140,7 +140,7 @@ export default class InputGrid extends React.Component {
                     <tr className="inputgrid-row">
                         <td>
                             <a className="btn btn-sm border-0 btn-white inputgrid-row-remove">
-                                <i className="la la-calculator la-lg mr-1 text-primary"></i>
+                                <i className="fa fa-calculator fa-lg mr-1 text-primary"></i>
                             </a>
                         </td>
                         {self.props.columns.map((column, colno)=>{
@@ -158,13 +158,13 @@ export default class InputGrid extends React.Component {
                         <td>
                             <a href="#" className="btn btn-sm border-0  inputgrid-add" data-toggle="tooltip" title="Add row"
                                 onClick={this.handleAddRowClick}>
-                                <i className="la la-plus-square la-lg mr-1 text-success"></i>
+                                <i className="fa fa-plus-square fa-lg mr-1 text-success"></i>
                             </a>
                         </td>
                         <td className="text-left">
                             <a href="#" className="btn btn-sm border-0  inputgrid-reset" data-toggle="tooltip" title="Reset Grid"
                                 onClick={this.handleResetClick}>
-                                <i className="la la-retweet la-lg mr-1 text-danger"></i>
+                                <i className="fa fa-retweet fa-lg mr-1 text-danger"></i>
                             </a>
                         </td>
                     </tr>

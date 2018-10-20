@@ -272,13 +272,13 @@ class ItemDetails extends React.Component {
                 </div>
                 <div class="ribbon-primary">
                     <button class="btn btn-primary " id="btn-save">
-                        <i class="la la-save la-lg mr-1"></i>Save
+                        <i class="fa fa-save fa-lg mr-1"></i>Save
                     </button>
                     <button class="btn btn-primary " id="btn-save-as">
-                        <i class="la la-save la-lg mr-1"></i>Save As
+                        <i class="fa fa-save fa-lg mr-1"></i>Save As
                     </button>
                     <button class="btn btn-primary " id="btn-save-reset">
-                        <i class="la la-save la-lg mr-1"></i>Reset
+                        <i class="fa fa-save fa-lg mr-1"></i>Reset
                     </button>
                 </div>
             </div>

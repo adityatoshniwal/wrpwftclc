@@ -34,7 +34,7 @@ class TabLinks extends React.Component {
                                href={"#"+tab.content_id} role="tab" aria-controls={tab.content_id} onClick={self.handleTabClick}
                                aria-selected={(tab.tab_id === self.props.active_id ? "true":"false")}>
                                 <span className="mr-1">{tab.title}</span>
-                                <a data-tabid={tab.tab_id} class={"nav-close la la-close la-1x " + (tab.closeable?"":"d-none")} 
+                                <a data-tabid={tab.tab_id} class={"nav-close fa fa-close fa-1x " + (tab.closeable?"":"d-none")}
                                         onClick={self.handleTabCloseClick}></a>
                             </a>
                         </li>
