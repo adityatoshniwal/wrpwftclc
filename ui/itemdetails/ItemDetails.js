@@ -6,9 +6,10 @@ import {bindActionCreators} from 'redux';
 import {tabActions} from 'sources/tabmanager/tabActionReducer';
 import {modalActions} from 'sources/modal/modalActionReducer';
 import {connect} from 'react-redux';
+import mathexp from 'mathjs-expression-parser';
 
 class ItemDetails extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state= {
             isCmdRunning: true,
@@ -16,36 +17,6 @@ class ItemDetails extends React.Component {
             cmdFailed: false,
             cmdError: '',
             cmdSuccess: '',
-            warp_grid_columns: [
-                { header: 'Count', accessor: d=>d[0] }, 
-                { header: 'Perct.', accessor: d=>d[1] },
-                { header: 'Wastage', accessor: d=>d[2] },
-                { header: 'Rate', accessor: d=>d[3]},
-                { header: 'Sizing Rate', accessor: d=>d[4] },
-                { header: 'Weight', accessor: d=>(parseFloat(d[0]) + parseFloat(d[1])), total:true}, 
-                { header: 'Warp Cost', accessor: d=>(d[1] + d[2]), total:true }, 
-                { header: 'Warp Sizing Cost', accessor: d=>(d[3] * d[4]), total:true }, 
-            ],
-            weft_grid_columns: [
-                { header: 'Count', accessor: d=>d[0] }, 
-                { header: 'Perct.', accessor: d=>d[1] },
-                { header: 'Wastage', accessor: d=>d[2] },
-                { header: 'Rate', accessor: d=>d[3] },
-                { header: 'Weight', accessor: d=>(d[0] + d[1]), total:true}, 
-                { header: 'Weft Cost', accessor: d=>(d[3] * d[0]), total:true},
-            ],
-            warp_pack_grid_columns: [
-                { header: 'Kg/Bag', accessor: d=>d[0] }, 
-                { header: 'No. of cone/bag', accessor: d=>d[1] },
-                { header: 'Part', accessor: d=>d[2] },
-                { header: 'No Of Beam', accessor: d=>d[3]},
-                { header: 'Kg/Cone', accessor: d=>d[0], total: true },
-                { header: 'Total Meger', accessor: d=>(d[0] + d[1]), total: true}, 
-                { header: 'Tara', accessor: d=>(d[1] + d[2]), total: true }, 
-                { header: 'No Of Bagst', accessor: d=>(d[3] * d[1]), total: true},
-                { header: 'Total Cut', accessor: d=>(d[3] * d[2]), total: true},
-                { header: 'Cut On Beam', accessor: d=>(d[3] * d[0]), total: true},
-            ],
             data: {
                 title: "Untitled", id: 0,
                 reed: '0', warpPanna: '0', warpReedSpace: '0', lassa: '0', warpMetre: '0', totalEnds: '0',
@@ -55,45 +26,122 @@ class ItemDetails extends React.Component {
                 rateOutPer: '0', rateOutRs: '0', demandRateOut:0, outPerctg: '0',
                 rateLocalPer: '0', rateLocalRs: '0', demandRateLocal:0, localPerctg: '0',
                 warp_grid_rows: [
-                    [0,0,0,0,0]
+                    [0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0]
                 ],
                 weft_grid_rows: [
-                    [0,0,0,0]
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0]
                 ],
-                warp_pack_grid_rows: [
-                    [0,0,0,0]
+                warppack_grid_rows: [
+                    [0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0]
                 ]
             }
         };
 
+        this.handleCellChange = this.handleCellChange.bind(this);
         this.handleRowsChange = this.handleRowsChange.bind(this);
         this.handleTextChangeData = this.handleTextChangeData.bind(this);
-        this.handleTextChangeFloat = this.handleTextChangeFloat.bind(this);
         this.handleSaveClick = this.handleSaveClick.bind(this);
-        this.formulas = this.formulas.bind(this);
+        this.handleUpdateTotal = this.handleUpdateTotal.bind(this);
+        this.formula = this.formula.bind(this);
+        this.evaluate = this.evaluate.bind(this);
+        this.gridColNo = this.gridColNo.bind(this);
     }
 
-    handleRowsChange(rows, grid='') {
-        if(grid !== '') {
-            this.setState(prevState => ({
-                [grid]: {
-                    ...prevState[grid],
-                    rows: rows
-                }
-            }));
-        }
-    }
-
-    handleTextChangeFloat(e) {
-        let val = e.target.value
-        if(val.trim() === '') {
-            val = 0;
-        } else {
-            val = parseFloat(val);
-        }
+    componentWillMount() {
         this.setState({
-            [e.target.name]: val,
+            warp_grid_columns: [
+                { name:'warpGCount', header: this.getLabel('warpGCount')}, 
+                { name:'warpGPerct', header: this.getLabel('warpGPerct')},
+                { name:'warpGWstg', header: this.getLabel('warpGWstg')},
+                { name:'warpGRate', header: this.getLabel('warpGRate')},
+                { name:'warpGSizRate', header: this.getLabel('warpGSizRate')},
+                { name:'warpGWt', header: this.getLabel('warpGWt'), total:true}, 
+                { name:'warpGCost', header: this.getLabel('warpGCost'), total:true }, 
+                { name:'warpGSizCost', header: this.getLabel('warpGSizCost'), total:true }, 
+            ],
+            weft_grid_columns: [
+                { header: this.getLabel('weftGCount')}, 
+                { header: this.getLabel('weftGPerct')},
+                { header: this.getLabel('weftGWstg')},
+                { header: this.getLabel('weftGRate')},
+                { header: this.getLabel('weftGWt'), total:true}, 
+                { header: this.getLabel('weftGCost'), total:true},
+            ],
+            warp_pack_grid_columns: [
+                { header: this.getLabel('warppackGKgBag') }, 
+                { header: this.getLabel('warppackGConeBag') },
+                { header: this.getLabel('warppackGPart') },
+                { header: this.getLabel('warppackGBeam')},
+                { header: this.getLabel('warppackGKgCone'), total: true },
+                { header: this.getLabel('warppackGMeger'), total: true}, 
+                { header: this.getLabel('warppackGTara'), total: true }, 
+                { header: this.getLabel('warppackGBags'), total: true},
+                { header: this.getLabel('warppackGCut'), total: true},
+                { header: this.getLabel('warppackGCutBeam'), total: true},
+            ],
         });
+    }
+
+    gridRow(gridId) {
+        let gridIdRowMap = {
+            'warp-grid-container': 'warp_grid_rows',
+            'weft-grid-container': 'weft_grid_rows',
+            'warppack-grid-container': 'warppack_grid_rows',
+        }
+
+        return(gridIdRowMap[gridId]);
+    }
+
+    gridColNo(gridId, fieldcode) {
+        let gridIdColMap = {
+            'warp-grid-container': 'warp_grid_columns',
+            'weft-grid-container': 'weft_grid_columns',
+            'warppack-grid-container': 'warppack_grid_columns',
+        }
+
+        let cols = this.state[gridIdColMap[gridId]];
+        return _.findIndex(cols, {'name':fieldcode});
+    }
+
+    handleUpdateTotal(gridId, newRows) {
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                [this.gridRow(gridId)]: newRows
+            }
+        }));
+        this.evaluate();
+    }
+
+
+    handleCellChange(gridId='', rowno, colno, newRows) {
+        if(gridId !== '') {
+            let gridRows = this.gridRow(gridId);
+            
+            this.setState(prevState => {
+                return {
+                    data: {
+                        ...prevState.data,
+                        [gridRows]: newRows,
+                    }
+                }
+            });
+
+            this.evaluate();
+        }
+    }
+
+    handleRowsChange(gridId, newRows) {
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                [this.gridRow(gridId)]: newRows
+            }
+        }));
+        this.evaluate();
     }
 
     handleTextChangeData(e) {
@@ -110,6 +158,8 @@ class ItemDetails extends React.Component {
         if(name === "title") {
             this.props.setTabTitle(value);
         }
+
+        this.evaluate();
     }
 
     handleSaveClick(e) {
@@ -175,7 +225,48 @@ class ItemDetails extends React.Component {
         }
     }
 
-    formulas(field) {
+    evaluate(inObj) {
+
+        this.setState((prevState)=>{
+            let warp_grid = prevState.data.warp_grid_rows;
+            let warp_formulas = this.props.formulas.warp_field_codes.fields;
+
+            warp_formulas.forEach(formula => {
+                let colno = this.gridColNo('warp-grid-container',formula.for_field_code);
+                let availFieldCodes = formula.avail_field_codes;
+                let formulaData = {}
+                for(let rowno=0; rowno<warp_grid.length-1; rowno++) {
+                    availFieldCodes.split(',').forEach(fieldcode=>{
+                        let availcolno = this.gridColNo('warp-grid-container',fieldcode)
+                        if(availcolno < 0){
+                            formulaData[fieldcode] = prevState.data[fieldcode];
+                        } else {
+                            formulaData[fieldcode] = parseFloat(warp_grid[rowno][availcolno]);    
+                        }
+                        
+                    });
+                    warp_grid[rowno][colno] = mathexp.eval(formula.formula,formulaData);
+                }
+            });
+
+            return {
+                data: {
+                    ...prevState.data,
+                    'warp_grid_rows': warp_grid,
+                }
+            }
+            // this.state.warp_grid_columns.forEach(col,colno => {
+            //     let currFormula = _.findWhere(warp_formulas,{'for_field_code':col.name});
+            //     if(currFormula) {
+            //         warp_grid.forEach(row, rowno=>{
+            //             warp_grid
+            //         });
+            //     }
+            // });
+        });
+    }
+
+    formula(field) {
         let self = this;
 
         let formulasObj = {
@@ -222,6 +313,14 @@ class ItemDetails extends React.Component {
         });
     }
 
+    getLabel(name){
+        let retVal = '';
+        if(this.props.fieldcodes[name]) {
+            retVal = this.props.fieldcodes[name].field_name;
+        }
+        return retVal;
+    }
+
     componentDidMount() {
         if(this.props.item_id > 0) {
             this.fetchItem();
@@ -244,35 +343,38 @@ class ItemDetails extends React.Component {
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
-                                        <InputTextBox label="Reed" name="reed"  maxlength={10}
-                                            value={this.state.data.reed} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("reed")} name="reed"
+                                            type="number" value={this.state.data.reed} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Panna" name="warpPanna" maxlength={10}
-                                            value={this.state.data.warpPanna} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("warpPanna")} name="warpPanna"
+                                           type="number" value={this.state.data.warpPanna} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Reed Space" name="warpReedSpace" maxlength={10}
-                                            value={this.state.data.warpReedSpace} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("warpReedSpace")} name="warpReedSpace"
+                                           type="number" value={this.state.data.warpReedSpace} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Lassa (yards)" name="lassa" maxlength={10}
-                                            value={this.state.data.lassa} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("lassa")} name="lassa"
+                                           type="number" value={this.state.data.lassa} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Metre" name="warpMetre" maxlength={10}
-                                            value={this.state.data.warpMetre} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("warpMetre")} name="warpMetre"
+                                           type="number" value={this.state.data.warpMetre} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Total Ends" name="totalEnds" maxlength={10}
-                                            value={this.state.data.totalEnds} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("totalEnds")} name="totalEnds"
+                                           type="number" value={this.state.data.totalEnds} handleTextChange={this.handleTextChangeData} />
                                     </div>                
                                 </div>
                                 <InputGrid  
+                                    type="number"
                                     gridId="warp-grid-container"
                                     columns={this.state.warp_grid_columns} 
                                     rows={this.state.data.warp_grid_rows}
-                                    handleRowsChange={this.handleRowsChange.bind(null, "warp_grid")}
+                                    handleCellChange={this.handleCellChange}
+                                    handleRowsChange={this.handleRowsChange}
+                                    handleUpdateTotal={this.handleUpdateTotal}
                                 />
                             </div>
                             <div class="bordered-box mb-2" id="weft">
@@ -281,35 +383,37 @@ class ItemDetails extends React.Component {
                                 </div>            
                                 <div class="row">
                                     <div class="col-2">
-                                        <InputTextBox label="Metre" name="weftMetre" maxlength={10}
-                                            value={this.state.data.weftMetre} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("weftMetre")} name="weftMetre"
+                                           type="number" value={this.state.data.weftMetre} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Panna" name="weftPanna" maxlength={10}
-                                            value={this.state.data.weftPanna} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("weftPanna")} name="weftPanna"
+                                           type="number" value={this.state.data.weftPanna} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Reed Space" name="weftReedSpace" maxlength={10}
-                                            value={this.state.data.weftReedSpace} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("weftReedSpace")} name="weftReedSpace"
+                                           type="number" value={this.state.data.weftReedSpace} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Peek" name="peek" maxlength={10}
-                                            value={this.state.data.peek} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("peek")} name="peek"
+                                           type="number" value={this.state.data.peek} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Job Rate" name="jobRate" maxlength={10}
-                                            value={this.state.data.jobRate} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("jobRate")} name="jobRate"
+                                           type="number" value={this.state.data.jobRate} handleTextChange={this.handleTextChangeData} />
                                     </div>
                                     <div class="col-2">
-                                        <InputTextBox label="Weaving Charges" name="weavingChrg" maxlength={10}
-                                            value={this.state.data.weavingChrg} handleTextChange={this.handleTextChangeData} />
+                                        <InputTextBox label={this.getLabel("weavingChrg")} name="weavingChrg"
+                                           type="number" value={this.state.data.weavingChrg} handleTextChange={this.handleTextChangeData} />
                                     </div>                
                                 </div>
                                 <InputGrid
+                                    type="number"
                                     gridId="weft-grid-container"
                                     columns={this.state.weft_grid_columns} 
                                     rows={this.state.data.weft_grid_rows}
-                                    handleRowsChange={this.handleRowsChange.bind(null, "weft_grid")}
+                                    handleCellChange={this.handleCellChange}
+                                    handleRowsChange={this.handleRowsChange}
                                 />
                             </div>
                         </div>
@@ -318,20 +422,20 @@ class ItemDetails extends React.Component {
                                 <div class="text-center my-1">
                                     <h5 class="my-auto text-primary">O T H E R S</h5>
                                 </div>
-                                <InputTextBox label="Warp Weight" name="warpWt" maxlength={10}
-                                    value={this.state.data.warpWt} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Warp Wt. with Wastage" name="warpWtWstg" maxlength={10}
-                                    value={this.state.data.warpWtWstg} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Weft Weight" name="weftWt" maxlength={10}
-                                    value={this.state.data.weftWt} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Weft Wt. with Wastage" name="weftWtWstg" maxlength={10}
-                                    value={this.state.data.weftWtWstg} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Total Weight" name="totalWt" maxlength={10}
-                                    value={this.state.data.totalWt} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Total Wt. with Wastage" name="totalWtWstg" maxlength={10}
-                                    value={this.state.data.totalWtWstg} handleTextChange={this.handleTextChangeData} />
-                                <InputTextBox label="Total Cost" name="totalCost" maxlength={10}
-                                    value={this.state.data.totalCost} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("warpWt")} name="warpWt"
+                                   type="number" value={this.state.data.warpWt} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("warpWtWstg")} name="warpWtWstg"
+                                   type="number" value={this.state.data.warpWtWstg} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("weftWt")} name="weftWt"
+                                   type="number" value={this.state.data.weftWt} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("weftWtWstg")} name="weftWtWstg"
+                                   type="number" value={this.state.data.weftWtWstg} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("totalWt")} name="totalWt"
+                                   type="number" value={this.state.data.totalWt} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("totalWtWstg")} name="totalWtWstg"
+                                   type="number" value={this.state.data.totalWtWstg} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("totalCost")} name="totalCost"
+                                   type="number" value={this.state.data.totalCost} handleTextChange={this.handleTextChangeData} />
                             </div>
                         </div>
                     </div>
@@ -340,16 +444,18 @@ class ItemDetails extends React.Component {
                             <h5 class="my-auto text-primary">W A R P &nbsp;&nbsp; P A C K I N G</h5>
                         </div>
                         <InputGrid  
+                            type="number"
                             gridId="warppack-grid-container"
                             columns={this.state.warp_pack_grid_columns} 
-                            rows={this.state.data.warp_pack_grid_rows}
-                            handleRowsChange={this.handleRowsChange.bind(null, "warp_pack_grid")}
+                            rows={this.state.data.warppack_grid_rows}
+                            handleCellChange={this.handleCellChange}
+                            handleRowsChange={this.handleRowsChange}
                         />
                         <div class="row">
                             <div class="col-5"></div>
                             <div class="col-2">
-                                <InputTextBox label="Cramp" name="cramp" maxlength={10}
-                                    value={this.state.data.cramp} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("cramp")} name="cramp"
+                                   type="number" value={this.state.data.cramp} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-5"></div>
                         </div>
@@ -360,38 +466,38 @@ class ItemDetails extends React.Component {
                         </div>
                         <div class="row">
                             <div class="col-2">
-                                <InputTextBox label="Rate Out Per" name="rateOutPer" maxlength={10}
-                                    value={this.state.data.rateOutPer} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("rateOutPer")} name="rateOutPer"
+                                   type="number" value={this.state.data.rateOutPer} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Rate Out Rs." name="rateOutRs" maxlength={10}
-                                    value={this.state.data.rateOutRs} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("rateOutRs")} name="rateOutRs"
+                                   type="number" value={this.state.data.rateOutRs} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Demanded Rate Out" name="demandRateOut" maxlength={10}
-                                    value={this.state.data.demandRateOut} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("demandRateOut")} name="demandRateOut"
+                                   type="number" value={this.state.data.demandRateOut} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Percentage %" name="outPerctg" maxlength={10}
-                                    value={this.state.data.outPerctg} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("outPerctg")} name="outPerctg"
+                                   type="number" value={this.state.data.outPerctg} handleTextChange={this.handleTextChangeData} />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-2">
-                                <InputTextBox label="Rate Local Per" name="rateLocalPer" maxlength={10}
-                                    value={this.state.data.rateLocalPer} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("rateLocalPer")} name="rateLocalPer"
+                                   type="number" value={this.state.data.rateLocalPer} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Rate Local Rs." name="rateLocalRs" maxlength={10}
-                                    value={this.state.data.rateLocalRs} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("rateLocalRs")} name="rateLocalRs"
+                                   type="number" value={this.state.data.rateLocalRs} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Demanded Local Out" name="demandRateLocal" maxlength={10}
-                                    value={this.state.data.demandRateLocal} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("demandRateLocal")} name="demandRateLocal"
+                                   type="number" value={this.state.data.demandRateLocal} handleTextChange={this.handleTextChangeData} />
                             </div>
                             <div class="col-2">
-                                <InputTextBox label="Percentage %" name="localPerctg" maxlength={10}
-                                    value={this.state.data.localPerctg} handleTextChange={this.handleTextChangeData} />
+                                <InputTextBox label={this.getLabel("localPerctg")} name="localPerctg"
+                                   type="number" value={this.state.data.localPerctg} handleTextChange={this.handleTextChangeData} />
                             </div>
                         </div>
                     </div>
@@ -412,15 +518,22 @@ class ItemDetails extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        fieldcodes: state.settings.fieldcodes,
+        formulas: state.settings.formulas,
+    }
+}
+
 
 function mapDispatchToProps(dispatch) {
     return {
         ...bindActionCreators({
             setTabTitle: tabActions.setTabTitle,
             refreshTab: tabActions.refreshTab,
-            openModal: modalActions.openModal,    
+            openModal: modalActions.openModal,
         }, dispatch)
     }
 }
 
-export default connect(null,mapDispatchToProps)(ItemDetails);
+export default connect(mapStateToProps,mapDispatchToProps)(ItemDetails);

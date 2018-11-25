@@ -24,8 +24,8 @@ function Formulas(props) {
                     return fields_for_cat.map((field_data)=>{
                         return(
                             <div className="col-md-6">
-                                <InputTextBox label={field_data.field_name} name={field_data.field_code}  maxlength={100}
-                                value={formatFormula(field_data, fields_for_cat)} multiline={true} readonly={true} rows={3}/>    
+                                <InputTextBox label={props.getLabel(field_data.for_field_code)} name={field_data.for_field_code}  maxlength={100}
+                                value={field_data.formula} multiline={true} readonly={true} rows={3}/>    
                             </div>)    
                     })
                 })}
@@ -42,9 +42,17 @@ class Settings extends React.Component {
         super();
         this.state = {
             message: "This is settings page",
-            warpWt: '[Warp] + [Weight] / 2'
-
         };
+
+        this.getLabel = this.getLabel.bind(this);
+    }
+
+    getLabel(name){
+        let retVal = '';
+        if(this.props.fieldcodes[name]) {
+            retVal = this.props.fieldcodes[name].field_name;
+        }
+        return retVal;
     }
 
     render() {
@@ -53,7 +61,7 @@ class Settings extends React.Component {
                 <div className="bordered-box my-2">
                     <span class="h5">Formula</span>
                     <div className="settings-list">
-                        <Formulas formulas={this.props.formulas}/>
+                        <Formulas formulas={this.props.formulas} getLabel={this.getLabel}/>
                     </div>
                 </div>
             </div>

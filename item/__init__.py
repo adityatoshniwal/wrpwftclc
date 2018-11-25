@@ -22,27 +22,30 @@ def get_item(id):
 
         final_list = []
         for item in item_list:
-            data_json = json.loads(item['data_json'])
             final_list.append({
                 "id": item['id'],
-                "title": data_json['title'],
-                "totalWt": data_json['totalWt'],
-                "totalWtWstg": data_json['totalWtWstg'],
-                "totalCost": data_json['totalCost']
+                "title": item['title'],
+                "totalWt": item['totalWt'],
+                "totalWtWstg": item['totalWtWstg'],
+                "totalCost": item['totalCost']
             })
         return form_response(200,"",final_list)
     else:
         try:
             with DBConnection() as conn:
-                ret_val = conn.execute_single(ITEM_SQL["SELECT_SQL_ID"].format(id))
+                ret_val = conn.execute_dict(ITEM_SQL["SELECT_ID_ITEM"].format(id))
+                item_warp_list = conn.execute_dict(ITEM_SQL["SELECT_ID_WARP"].format(id))
+                item_weft_list = conn.execute_dict(ITEM_SQL["SELECT_ID_WEFT"].format(id))
+                item_warppack_list = conn.execute_dict(ITEM_SQL["SELECT_ID_WARPPACK"].format(id))
         except Exception as e:
             return form_response(500, "Some Exception Occurred[{0}]".format(e))
 
         if ret_val is None:
             return form_response(404,"Item does not exist")
         else:
-            ret_resp = json.loads(ret_val)
-            ret_resp['id'] = int(id)
+            ret_resp = {key: value for key, value in ret_val[0].items()}
+            # ret_resp = json.loads(ret_val)
+            # ret_resp['id'] = int(id)
             return form_response(200,"",ret_resp)
 
 
@@ -50,11 +53,19 @@ def get_item(id):
 def add_item():
     data = request.json
 
+    item_cols = ['title', ]
+    item_cols_float = ['weftMetre', 'warpPanna', 'outPerctg', 'warpWtWstg', 'peek', 'rateOutRs', 'weftWtWstg',
+                       'weavingChrg', 'cramp', 'weftReedSpace', 'totalCost', 'totalWtWstg', 'weftWt', 'localPerctg',
+                       'warpMetre', 'reed', 'demandRateLocal', 'lassa', 'demandRateOut', 'warpReedSpace', 'rateOutPer',
+                       'totalWt', 'weftPanna', 'totalEnds', 'rateLocalRs', 'rateLocalPer', 'jobRate']
+
+    item_values = [data[col] for col in item_cols]
+    item_values = item_values + [float(data[col]) for col in item_cols_float]
     try:
         with DBConnection() as conn:
-            newId = conn.execute_insert(ITEM_SQL["INSERT_SQL"], (json.dumps(data),))
+            newId = conn.execute_insert(ITEM_SQL["INSERT_SQL_ITEM"].format(",".join(item_cols+item_cols_float)), tuple(item_values))
     except Exception as e:
-        return form_response(500, "Some Exception Occurred[{0}]".format(e.message))
+        return form_response(500, "Some Exception Occurred[{0}]".format(e))
 
     return form_response(200, "Item Successfully added",newId)
 

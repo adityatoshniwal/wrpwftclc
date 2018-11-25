@@ -3,11 +3,11 @@ import React from 'react';
 export default class InputGrid extends React.Component {
     constructor() {
         super();
-        this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleCellChange = this.handleCellChange.bind(this);
         this.handleRemoveRowClick = this.handleRemoveRowClick.bind(this);
         this.handleAddRowClick = this.handleAddRowClick.bind(this);
         this.handleResetClick = this.handleResetClick.bind(this);
-        this.updateTotal= this.updateTotal.bind(this);
+        this.handleUpdateTotal= this.handleUpdateTotal.bind(this);
         this.state = {
             total: []
         }
@@ -19,42 +19,41 @@ export default class InputGrid extends React.Component {
         });
     }
 
-    updateTotal() {
-        this.setState(prevState=> {
-            let total = prevState.total,
-                newRows = this.props.rows;
-            this.props.columns.forEach((column,colno) => {
-                if(column.total) {
-                    let accessor = column.accessor;
-                    total[colno] = 0;
-                    newRows.forEach(row => {
-                        total[colno] += parseFloat(accessor(row)) || 0;
-                    });
-                }
-            });
+    handleUpdateTotal() {
+        let newRows = Object.assign(this.props.rows),
+            newRowsLen = newRows.length,
+            total = newRows[newRowsLen-1];
 
-            return {
-                total: total
+        this.props.columns.forEach((column,colno) => {
+            if(column.total) {
+                total[colno] = 0;
+                newRows.forEach((row,rowno) => {
+                    if(rowno < newRowsLen-1)
+                        total[colno] += parseFloat(row[colno]) || 0;
+                });
             }
         });
+
+        if(this.props.handleUpdateTotal){
+            this.props.handleUpdateTotal(this.props.gridId, newRows);
+        }
     }
 
-    handleTextChange(e){
-        let newRows = this.props.rows,
-            rowno = e.currentTarget.getAttribute("data-row"),
+    handleCellChange(e){
+        let rowno = e.currentTarget.getAttribute("data-row"),
             colno = e.currentTarget.getAttribute("data-col");
         
         if(rowno === 'total') {
             return;
         }
 
+        let newRows = Object.assign(this.props.rows)
         newRows[rowno][colno] = e.target.value;
 
-        this.updateTotal();
-
-        if(this.props.handleRowsChange){
-            this.props.handleRowsChange(newRows);
+        if(this.props.handleCellChange){
+            this.props.handleCellChange(this.props.gridId, rowno, colno, newRows);
         }
+        this.handleUpdateTotal();
     }
 
     handleRemoveRowClick(e) {
@@ -63,11 +62,11 @@ export default class InputGrid extends React.Component {
         
         newRows.splice(rowno, 1);
 
-        this.updateTotal();
-
         if(this.props.handleRowsChange){
-            this.props.handleRowsChange(newRows);
+            this.props.handleRowsChange(this.props.gridId,newRows);
         }
+
+        this.handleUpdateTotal();
     }
 
     handleAddRowClick(e) {
@@ -75,8 +74,10 @@ export default class InputGrid extends React.Component {
         newRows.push((new Array(this.props.columns.length)).fill(0));
 
         if(this.props.handleRowsChange){
-            this.props.handleRowsChange(newRows);
+            this.props.handleRowsChange(this.props.gridId,newRows);
         }
+
+        this.handleUpdateTotal();
     }
     
     handleResetClick(e) {
@@ -85,19 +86,16 @@ export default class InputGrid extends React.Component {
             newRows[i] = row.fill(0);
         });
 
-        this.updateTotal();
-
         if(this.props.handleRowsChange){
-            this.props.handleRowsChange(newRows);
+            this.props.handleRowsChange(this.props.gridId,newRows);
         }
+
+        this.handleUpdateTotal();
     }
 
     render() {
         let editableCols = [];
         self = this;
-        // this.props.grid.columns.forEach(element => {
-        //     element.Cell = self.renderEditable
-        // });
 
         return(
             <table className="m-auto inputgrid" id={this.props.gridId}>
@@ -116,49 +114,55 @@ export default class InputGrid extends React.Component {
                 </thead>
                 <tbody className="inputgrid-rows">
                     {self.props.rows.map((row, rowno)=>{
-                        return(
-                            <tr className="inputgrid-row">
-                                <td>
-                                    <a href="#" className="btn btn-sm btn-light inputgrid-row-remove"
-                                        data-row={rowno} onClick={this.handleRemoveRowClick}>
-                                        <i className="fa fa-minus-square fa-lg mr-1 text-danger"></i>
-                                    </a>
-                                </td>
-                                {self.props.columns.map((column, colno)=>{
-                                    return(                                        
-                                        <td className="inputgrid-col">
-                                            <input className="m-0 form-control form-control-sm" maxlength="10" value={column.accessor(row)}
-                                                data-col={colno} data-row={rowno} onChange={this.handleTextChange}
-                                                readOnly={column.readonly}
-                                            />
-                                        </td>
-                                    )
-                                })}
-                            </tr>                            
-                        )
+                        {/* Last row always be total */}
+                        if(rowno < self.props.rows.length-1) {
+                            return(
+                                <tr key={rowno} className="inputgrid-row">
+                                    <td>
+                                        <a href="#" className="btn btn-sm btn-light inputgrid-row-remove"
+                                            data-row={rowno} onClick={this.handleRemoveRowClick}>
+                                            <i className="fa fa-minus-square fa-lg text-danger"></i>
+                                        </a>
+                                    </td>
+                                    {self.props.columns.map((column, colno)=>{
+                                        return(                                        
+                                            <td className="inputgrid-col">
+                                                <input className="m-0 form-control form-control-sm" maxlength="10" value={row[colno]}
+                                                    data-col={colno} data-row={rowno} onChange={this.handleCellChange}
+                                                    readOnly={column.readonly} type={this.props.type?this.props.type:"text"}
+                                                />
+                                            </td>
+                                        )
+                                    })}
+                                </tr>                            
+                            );
+                        } else {
+                            return(
+                                <tr key={rowno} className="inputgrid-row">
+                                    <td>
+                                        <a className="btn btn-sm border-0 btn-white inputgrid-row-remove">
+                                            <i className="fa fa-calculator fa-lg text-primary"></i>
+                                        </a>
+                                    </td>
+                                    {self.props.columns.map((column, colno)=>{
+                                        return(                                        
+                                            <td className="inputgrid-col">
+                                                <input className=" m-0 form-control form-control-sm" maxlength="10" value={row[colno]}
+                                                data-col={colno} data-row="total" disabled={column.total === undefined?true:!column.total} onChange={this.handleCellChange}/>
+                                            </td>
+                                        )
+                                    })}
+                                </tr>    
+                            );                   
+                        }
                     })}
-                    <tr className="inputgrid-row">
-                        <td>
-                            <a className="btn btn-sm border-0 btn-white inputgrid-row-remove">
-                                <i className="fa fa-calculator fa-lg mr-1 text-primary"></i>
-                            </a>
-                        </td>
-                        {self.props.columns.map((column, colno)=>{
-                            return(                                        
-                                <td className="inputgrid-col">
-                                    <input className=" m-0 form-control form-control-sm" maxlength="10" value={this.state.total[colno]}
-                                      data-col={colno} data-row="total" disabled={column.total === undefined?true:!column.total} onChange={this.handleTextChange}/>
-                                </td>
-                            )
-                        })}
-                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>
                             <a href="#" className="btn btn-sm border-0  inputgrid-add" data-toggle="tooltip" title="Add row"
                                 onClick={this.handleAddRowClick}>
-                                <i className="fa fa-plus-square fa-lg mr-1 text-success"></i>
+                                <i className="fa fa-plus-square fa-lg text-success"></i>
                             </a>
                         </td>
                         <td className="text-left">

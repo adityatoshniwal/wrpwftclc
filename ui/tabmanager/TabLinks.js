@@ -13,13 +13,11 @@ class TabLinks extends React.Component {
 
     handleTabClick(e) {
         e.stopPropagation();
-        console.log('Tab clicked - '+ e.currentTarget.id);
         this.props.setActiveId(e.currentTarget.id);
     }
 
     handleTabCloseClick(e) {
         e.stopPropagation();
-        console.log('Tab closed - '+ e.target.getAttribute("data-tabid"));
         this.props.closeTabId(e.target.getAttribute("data-tabid"))
     }
 

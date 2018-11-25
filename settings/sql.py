@@ -3,12 +3,12 @@ FORMULA_SQL = {
     insert into items(data_json,del_flag)
     values (?,'N')
 """,
-"SELECT_FORMULA_CAT":"""
-    select * from formula_cat
+"SELECT_FIELDCODES_ALL":"""
+    select * from field_codes
 """,
-"SELECT_FORMULA_FIELD_CAT":"""
-    select * from formula_fields 
-    where field_cat_code = '{0}'
+"SELECT_FORMULA_FIELD":"""
+    select * from formula_fields
+    order by priority
 """,
 "SELECT_SQL_USER_EXISTS":"""
     select count(1) from users 

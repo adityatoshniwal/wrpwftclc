@@ -1,6 +1,6 @@
 import json
 from flask import Response
-
+import traceback
 
 def get_json(**kwargs):
     """
@@ -36,3 +36,7 @@ def dict_factory_for_sqlite(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+
+def format_exception(e):
+    return traceback.format_exc()

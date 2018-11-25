@@ -6,7 +6,7 @@ function InputTextBox(props){
     }
     let returnInput = function(props) {
         return (
-            <input className={"form-control " +(props.normal?"":"form-control-sm")} type="text" 
+            <input className={"form-control " +(props.normal?"":"form-control-sm")} type={props.type?props.type:"text"}
             id={props.id} name={props.name} value={props.value} onChange={props.handleTextChange} 
             maxLength={props.maxlength} readOnly={props.readonly}/>
         )

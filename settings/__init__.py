@@ -1,7 +1,8 @@
 from flask import Blueprint, request
 from db_connector import DBConnection
 from .formula import get_formulas
-from utils import form_response
+from .fieldcodes import get_fieldcodes
+from utils import form_response, format_exception
 
 import json, time
 
@@ -12,8 +13,9 @@ def get_settings():
     ret_resp = {}
     try:
         ret_resp['formulas'] = get_formulas()
+        ret_resp['fieldcodes'] = get_fieldcodes()
     except Exception as e:
-        return form_response(500, "Some Exception Occurred[{0}]".format(e))
+        return form_response(500, "Some Exception Occurred[{0}]".format(format_exception(e)))
 
     # time.sleep(5)
     return form_response(200,"", ret_resp)
